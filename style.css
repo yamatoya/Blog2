@@ -80,11 +80,9 @@ img{
 }
 
 #header{
-	height:120px;
-	padding-right:15px;
-	background:url(images/neuelogo.png);
-	background-repeat: no-repeat;
-	text-align:right;
+    height: 120px;
+    color: #c10000;
+    font-size: 80px;
 }
 
 #header img{
