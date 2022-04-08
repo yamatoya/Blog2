@@ -16,7 +16,7 @@ static string BuildHtml(string title, string content, string side, string footer
     var og = "";
     if (ogurl != null)
     {
-        var type = (ogurl == "https://neue.cc") ? "website" : "article";
+        var type = (ogurl == "https://poop.jp") ? "website" : "article";
         ogcontent = ogcontent ?? "";
         og = @$"
 <meta property=""og:url"" content=""{ogurl}"" />
@@ -29,19 +29,10 @@ static string BuildHtml(string title, string content, string side, string footer
     return @$"<!DOCTYPE html>
 <html dir=""ltr"" lang=""ja"">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src=""https://www.googletagmanager.com/gtag/js?id=UA-2834006-1""></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {{ dataLayer.push(arguments); }}
-        gtag('js', new Date());
-        gtag('config', 'UA-2834006-1');
-    </script>
     <meta charset=""utf-8"" />
     <title>{title}</title>
-    <link rel=""shortcut icon"" href=""https://neue.cc/favicon.ico"" />
-    <link rel=""alternate"" type=""application/rss+xml"" href=""https://neue.cc/feed""/>
-	<link rel=""stylesheet"" href=""https://neue.cc/style.css"" type=""text/css"" media=""screen"" />
+    <link rel=""alternate"" type=""application/rss+xml"" href=""https://poop.jp/feed""/>
+	<link rel=""stylesheet"" href=""https://poop.jp/style.css"" type=""text/css"" media=""screen"" />
     <link href=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css"" rel=""stylesheet"" />
     {og}
  </head>
@@ -50,7 +41,7 @@ static string BuildHtml(string title, string content, string side, string footer
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js""></script>
     <div id=""wrapper"">
-        <a href=""https://neue.cc/""><div id=""header""></div></a>
+        <a href=""https://poop.jp/""><div id=""header""></div></a>
         <div id=""content"">{content}</div>
         <div id=""side"">{side}</div>
         <div id=""footer"">{footer}</div>
@@ -84,7 +75,7 @@ var articles = Directory.EnumerateFiles(inputDir)
         }
 
         var title = first.TrimStart('#', ' ').TrimEnd(' ');
-        var bodyTitle = $"<h1><a href=\"https://neue.cc/{yyyy}/{mm}/{dd_no}.html\">{title}</a></h1>";
+        var bodyTitle = $"<h1><a href=\"https://poop.jp/{yyyy}/{mm}/{dd_no}.html\">{title}</a></h1>";
         var bodyDate = $"<ul class=\"date\"><li>{yyyy}-{mm}-{dd}</li></ul>";
         var body = "<div class=\"entry_body\">" + Markdown.ToHtml(others) + "</div>";
 
@@ -103,23 +94,14 @@ var articles = Directory.EnumerateFiles(inputDir)
 var sideArchives = articles
     .GroupBy(x => (x.Url.yyyy, x.Url.mm))
     .OrderByDescending(x => x.Key)
-    .Select(x => $"<li><a href=\"https://neue.cc/{x.Key.yyyy}/{x.Key.mm}/\">{x.Key.yyyy}-{x.Key.mm}</a>");
+    .Select(x => $"<li><a href=\"https://poop.jp/{x.Key.yyyy}/{x.Key.mm}/\">{x.Key.yyyy}-{x.Key.mm}</a>");
 
 var side = $@"
 <h3>Profile</h3>
 <div class=""side_body"" align=""center"">
-<b>Yoshifumi Kawai</b><br />
+<b>Takahito Yamatoya</b><br />
 <br />
-<a href=""https://cysharp.co.jp/"">Cysharp, Inc</a><br />
-CEO/CTO<br />
-<br />
-Microsoft MVP for Developer Technologies(C#)<br />
-April 2011<br />
-|<br />
-July 2022<br />
-<br />
-Twitter:<a href=""https://twitter.com/neuecc/"">@neuecc</a>
-GitHub:<a href=""https://github.com/neuecc/"">neuecc</a>
+Twitter:<a href=""https://twitter.com/t_yamatoya/"">@t_yamatoya</a>
 </div>
 
 <h3>Archive</h3>
@@ -132,9 +114,9 @@ GitHub:<a href=""https://github.com/neuecc/"">neuecc</a>
 
 // Create footer
 var footer = @"<ul>
-<li>Index: <a href=""https://neue.cc"">neue.cc</a><li>
-<li>RSS feed: <a href=""https://neue.cc/feed"">neue.cc/feed</a><li>
-<li>Powered by: <a href=""https://github.com/neuecc/Blog2"">https://github.com/neuecc/Blog2</a>
+<li>Index: <a href=""https://poop.jp"">poop.jp</a><li>
+<li>RSS feed: <a href=""https://poop.jp/feed"">poop.jp/feed</a><li>
+<li>Powered by: <a href=""https://github.com/yamatoya/Blog2"">https://github.com/yamatoya/Blog2</a>
 </ul>";
 
 // Generate Root Index
@@ -160,7 +142,7 @@ await Parallel.ForEachAsync(articles.GroupBy(x => x.Url.yyyy), async (yyyy, _) =
         {
             var filePath = $"{item.Url.yyyy}/{item.Url.mm}/{item.Url.dd_no}.html";
             Console.WriteLine($"Generating {filePath}");
-            var html = BuildHtml("neue cc - " + item.Title, item.Body, side, footer, $"https://neue.cc/{filePath}", item.OriginalBody);
+            var html = BuildHtml("neue cc - " + item.Title, item.Body, side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
             await File.WriteAllTextAsync(Path.Combine(mmmmPath, item.Url.dd_no + ".html"), html);
         }
     }
@@ -206,7 +188,7 @@ string CreateDirectory(string root, string path)
 async Task GenerateIndexWithPagingAsync(IEnumerable<Article> source, string root, string? title)
 {
     var pageRoot = root.Replace(outputDir, "").Trim('/');
-    var urlRoot = pageRoot == "" ? "https://neue.cc" : ("https://neue.cc/" + pageRoot);
+    var urlRoot = pageRoot == "" ? "https://poop.jp" : ("https://poop.jp/" + pageRoot);
     var page = 1;
     var articles = source.Chunk(15).ToArray();
     foreach (var items in articles)
@@ -237,7 +219,7 @@ async Task GenerateIndexWithPagingAsync(IEnumerable<Article> source, string root
         }
 
         var t = (title == null) ? "neue cc" : ("neue cc - " + title);
-        var og = (title == null && page == 1) ? "https://neue.cc" : null;
+        var og = (title == null && page == 1) ? "https://poop.jp" : null;
         var html = BuildHtml(t, body.ToString(), side!, footer!, og);
 
         var path = (page == 1) ? "index.html" : $"{page}.html";
@@ -265,7 +247,7 @@ async Task CreateRssAsync(string path, IEnumerable<Article> articles)
         };
     });
 
-    var feed = new SyndicationFeed(title: "neue cc", description: "C# Technical Blog", feedAlternateLink: new Uri("http://neue.cc"))
+    var feed = new SyndicationFeed(title: "neue cc", description: "C# Technical Blog", feedAlternateLink: new Uri("http://poop.jp"))
     {
         Language = "ja",
         LastUpdatedTime = new DateTimeOffset(DateTime.UtcNow.AddHours(9).Ticks, TimeSpan.FromHours(9)),
@@ -292,7 +274,7 @@ public record PageUrl(string yyyy, string mm, string dd, string dd_no)
 {
     public override string ToString()
     {
-        return $"https://neue.cc/{yyyy}/{mm}/{dd_no}.html";
+        return $"https://poop.jp/{yyyy}/{mm}/{dd_no}.html";
     }
 }
 
