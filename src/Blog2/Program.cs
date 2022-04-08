@@ -142,7 +142,7 @@ await Parallel.ForEachAsync(articles.GroupBy(x => x.Url.yyyy), async (yyyy, _) =
         {
             var filePath = $"{item.Url.yyyy}/{item.Url.mm}/{item.Url.dd_no}.html";
             Console.WriteLine($"Generating {filePath}");
-            var html = BuildHtml("neue cc - " + item.Title, item.Body, side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
+            var html = BuildHtml("poop jp- " + item.Title, item.Body, side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
             await File.WriteAllTextAsync(Path.Combine(mmmmPath, item.Url.dd_no + ".html"), html);
         }
     }
@@ -218,7 +218,7 @@ async Task GenerateIndexWithPagingAsync(IEnumerable<Article> source, string root
             body.AppendLine($"<a href=\"{urlRoot}/{page + 1}\">| Next</a>");
         }
 
-        var t = (title == null) ? "neue cc" : ("neue cc - " + title);
+        var t = (title == null) ? "poop jp" : ("poop jp - " + title);
         var og = (title == null && page == 1) ? "https://poop.jp" : null;
         var html = BuildHtml(t, body.ToString(), side!, footer!, og);
 
@@ -247,7 +247,7 @@ async Task CreateRssAsync(string path, IEnumerable<Article> articles)
         };
     });
 
-    var feed = new SyndicationFeed(title: "neue cc", description: "C# Technical Blog", feedAlternateLink: new Uri("http://poop.jp"))
+    var feed = new SyndicationFeed(title: "poop jp", description: "C# Technical Blog", feedAlternateLink: new Uri("http://poop.jp"))
     {
         Language = "ja",
         LastUpdatedTime = new DateTimeOffset(DateTime.UtcNow.AddHours(9).Ticks, TimeSpan.FromHours(9)),
