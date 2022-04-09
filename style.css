@@ -135,14 +135,13 @@ img{
 	}
     #content{
 		width:850px;
+		white-space: none;
 	}
 	#wrapper {
 		width:1000px;
 	}
 	#side{
 		float:right;
-		width:135px;
-		font-size:12px;
 	}
 	li{
 		font-size:12px;
