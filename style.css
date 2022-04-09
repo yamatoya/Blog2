@@ -100,18 +100,19 @@ img{
 
 #content{
 	float:left;
-	width:850px;
 }
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:980px) {
 	#side{
 		width:135px;
 		font-size:12px;
 	}
 }
 
-@media screen and (min-width:900px) {
-    
+@media screen and (min-width:980px) {
+    #content{
+		width:850px;
+	}
 	#side{
 		float:right;
 		width:135px;
