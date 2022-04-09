@@ -101,7 +101,21 @@ img{
 	float:left;
 }
 
-@media screen and (max-width:980px) {
+@media screen and (min-width:1024px) {
+    #content{
+		width:850px;
+	}
+	#wrapper {
+		width:1000px;
+	}
+	#side{
+		float:right;
+		width:135px;
+		font-size:12px;
+	}
+}
+
+@media screen and (max-width:480px) {
 	#side{
 		width:135px;
 		font-size:12px;
@@ -114,20 +128,6 @@ img{
 		box-sizing: border-box;
 		word-wrap: break-word;
 		width: 100%;
-	}
-}
-
-@media screen and (min-width:980px) {
-    #content{
-		width:850px;
-	}
-	#wrapper {
-		width:1000px;
-	}
-	#side{
-		float:right;
-		width:135px;
-		font-size:12px;
 	}
 }
 
