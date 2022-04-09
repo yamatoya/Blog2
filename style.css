@@ -39,16 +39,12 @@ A:active{color:#e10000;}
 A:hover{color:#e10000;}
 
 *{
-	color:#9ba29f;
 	margin:0px;
 	padding:0px;
 	border-width:0px;
 	border-style:solid;
 	border-color:#5B5B5B;
-	font-family:'Lucida Sans Unicode','Lucida Grande','Verdana','MS UI Gothic','sans-serif';
-	font-weight:normal;
-	letter-spacing:1px;
-	line-height:1.5;
+
 	text-decoration:none;
 }
 
@@ -102,6 +98,14 @@ img{
 
 
 @media screen and (min-width:480px) {
+	* {
+		font-family: "Helvetica Neue",
+		Arial,
+		"Hiragino Kaku Gothic ProN",
+		"Hiragino Sans",
+		Meiryo,
+		sans-serif;
+	}
 	#side{
 		width:135px;
 		font-size:12px;
@@ -118,6 +122,13 @@ img{
 }
 
 @media screen and (min-width:1025px) {
+	* {
+		color:#9ba29f;
+		font-family:'Lucida Sans Unicode','Lucida Grande','Verdana','MS UI Gothic','sans-serif';
+		font-weight:normal;
+		letter-spacing:1px;
+		line-height:1.5;
+	}
 	body {
 		background:#000000 url(images/background.jpg) no-repeat fixed center top;
 	}
