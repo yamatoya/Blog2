@@ -56,7 +56,6 @@ body{
 	width:100%;
 	height:100%;
 	font-size:14px;
-	background:#000000 url(images/background.jpg) no-repeat fixed center top;
 	text-align:center;
 }
 
@@ -101,21 +100,8 @@ img{
 	float:left;
 }
 
-@media screen and (max-width:1024px) {
-    #content{
-		width:850px;
-	}
-	#wrapper {
-		width:1000px;
-	}
-	#side{
-		float:right;
-		width:135px;
-		font-size:12px;
-	}
-}
 
-@media screen and (max-width:576px) {
+@media screen and (min-width:480px) {
 	#side{
 		width:135px;
 		font-size:12px;
@@ -130,6 +116,24 @@ img{
 		width: 100%;
 	}
 }
+
+@media screen and (min-width:1025px) {
+	body {
+		background:#000000 url(images/background.jpg) no-repeat fixed center top;
+	}
+    #content{
+		width:850px;
+	}
+	#wrapper {
+		width:1000px;
+	}
+	#side{
+		float:right;
+		width:135px;
+		font-size:12px;
+	}
+}
+
 
 #footer{
 	clear:both;
