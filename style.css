@@ -101,7 +101,7 @@ img{
 	float:left;
 }
 
-@media screen and (min-width:1024px) {
+@media screen and (max-width:1024px) {
     #content{
 		width:850px;
 	}
