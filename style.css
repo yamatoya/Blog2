@@ -106,7 +106,6 @@ img{
 	}
 	html {
 		font-size: 62.5%;
-		-webkit-text-size-adjust: 100%;
 	}
 	#side{
 		width:135px;
@@ -150,6 +149,11 @@ img{
 	}
 	.entry_body li{
 		font-size:14px;
+	}
+	h1{
+		font-size:18px;
+		width:650px;
+		height:25px;
 	}
 }
 
@@ -195,9 +199,6 @@ br{
 }
 
 h1{
-	font-size:18px;
-	width:650px;
-	height:25px;
 	background:url(images/brline.png) bottom no-repeat;
 	margin:13px 0px 5px 0px;
 	padding:0px 0px 6px 10px;
