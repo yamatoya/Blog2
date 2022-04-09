@@ -107,6 +107,10 @@ img{
 	html {
 		font-size: 62.5%;
 	}
+	body {
+		text-size-adjust: 100%;
+		-webkit-text-size-adjust: 100%; /* Safari */
+	}
 	#side{
 		width:135px;
 		font-size:12px;
