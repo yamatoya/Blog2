@@ -44,7 +44,6 @@ A:hover{color:#e10000;}
 	border-width:0px;
 	border-style:solid;
 	border-color:#5B5B5B;
-
 	text-decoration:none;
 }
 
@@ -146,6 +145,12 @@ img{
 		width:135px;
 		font-size:12px;
 	}
+	li{
+		font-size:12px;
+	}
+	.entry_body li{
+		font-size:14px;
+	}
 }
 
 
@@ -237,12 +242,10 @@ ul .children{
 
 .entry_body li{
 	margin-left:15px;
-	font-size:14px;
 	list-style-type:disc;
 }
 
 li{
-	font-size:12px;
 	list-style-type:none;
 }
 
