@@ -41,3 +41,48 @@ body {
 	margin-bottom: 10px;
 	text-align: right;
 }
+
+blockquote{
+	width:450px;
+	margin-left:50px;
+	padding-left:20px;
+	border-width:0px 0px 0px 1px;
+}
+
+.entry_body blockquote p{
+	text-indent:0px;
+}
+
+ul{
+	margin:0px 10px 3px 0px;
+}
+ul .children{
+		margin-left:10px;
+}
+
+.entry_body ul{
+	margin:5px 0px 10px 0px;
+}
+
+.entry_body li{
+	margin-left:15px;
+	font-size:14px;
+	list-style-type:disc;
+}
+
+li{
+	font-size:12px;
+	list-style-type:none;
+}
+
+dl{
+	margin:10px 0px;
+}
+dt{
+	line-height:1;
+	margin-top:5px;
+}
+dd{
+	font-size:12px;
+	margin-left:20px;
+}
