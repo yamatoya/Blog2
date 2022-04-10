@@ -35,6 +35,7 @@ static string BuildHtml(string title, string content, string side, string footer
 	<link rel=""stylesheet"" href=""https://poop.jp/style.css"" type=""text/css"" media=""screen"" />
     <link href=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css"" rel=""stylesheet"" />
     {og}
+     <meta data-n-head=""ssr"" name=""viewport"" content=""width=device-width, initial-scale=1.0"">
  </head>
 <body>
 	<script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js""></script>
