@@ -1,29 +1,102 @@
-A:link{color:#c10000;}
-A:visited{color:#c10000;}
-A:active{color:#e10000;}
-A:hover{color:#e10000;}
+/*Reset by Yahoo UI-----------------------------*/
 
-*{
-	margin:0px;
-	padding:0px;
-	border-width:0px;
-	border-style:solid;
-	border-color:#5B5B5B;
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { border:0;
+}
 
-	text-decoration:none;
+/*Format----------------------------------------*/
+A:link {
+	color: #c10000;
+}
+
+A:visited {
+	color: #c10000;
+}
+
+A:active {
+	color: #e10000;
+}
+
+A:hover {
+	color: #e10000;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #5B5B5B;
+
+	text-decoration: none;
 }
 
 body {
 	font-family: -apple-system-subset, Helvetica, Hiragino Kaku Gothic ProN, sans-serif;
 }
 
+h1 {
+	font-size: 1.125rem;
+	font-weight: bold;
+	line-height: 1.3;
+}
 
-@media screen and (min-width:480px) {
-	h1 {
-		font-size: 1.125rem;
-		font-weight: bold;
-		line-height: 1.3;
-	}
+/*Block-----------------------------------------*/
+
+#wrapper{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:left;
+}
+
+#header{
+    height: 120px;
+    color: #c10000;
+    font-size: 80px;
+}
+
+#header img{
+	margin:77px 0px 0px 0px;
+}
+
+#menu{
+	margin:10px 0px;
+	padding-left:10px;
+    font-size:12px;
+}
+#menulib{
+    float:right;
+}
+
+#content{
+	float:left;
 }
 
 @media screen and (min-width:1025px) {}
@@ -42,47 +115,50 @@ body {
 	text-align: right;
 }
 
-blockquote{
-	width:450px;
-	margin-left:50px;
-	padding-left:20px;
-	border-width:0px 0px 0px 1px;
+blockquote {
+	width: 450px;
+	margin-left: 50px;
+	padding-left: 20px;
+	border-width: 0px 0px 0px 1px;
 }
 
-.entry_body blockquote p{
-	text-indent:0px;
+.entry_body blockquote p {
+	text-indent: 0px;
 }
 
-ul{
-	margin:0px 10px 3px 0px;
-}
-ul .children{
-		margin-left:10px;
+ul {
+	margin: 0px 10px 3px 0px;
 }
 
-.entry_body ul{
-	margin:5px 0px 10px 0px;
+ul .children {
+	margin-left: 10px;
 }
 
-.entry_body li{
-	margin-left:15px;
-	font-size:14px;
-	list-style-type:disc;
+.entry_body ul {
+	margin: 5px 0px 10px 0px;
 }
 
-li{
-	font-size:12px;
-	list-style-type:none;
+.entry_body li {
+	margin-left: 15px;
+	font-size: 14px;
+	list-style-type: disc;
 }
 
-dl{
-	margin:10px 0px;
+li {
+	font-size: 12px;
+	list-style-type: none;
 }
-dt{
-	line-height:1;
-	margin-top:5px;
+
+dl {
+	margin: 10px 0px;
 }
-dd{
-	font-size:12px;
-	margin-left:20px;
+
+dt {
+	line-height: 1;
+	margin-top: 5px;
+}
+
+dd {
+	font-size: 12px;
+	margin-left: 20px;
 }
