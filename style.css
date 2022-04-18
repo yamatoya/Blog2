@@ -223,6 +223,11 @@ ul .children {
 	list-style-type: disc;
 }
 
+.entry_body img {
+	max-width: 100%;
+	height: atuo;
+  }
+
 li {
 	font-size: 1rem;
 	list-style-type: none;
