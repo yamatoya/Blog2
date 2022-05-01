@@ -172,7 +172,13 @@ h3 {
 	line-height: 1.5;
 }
 
-@media screen and (min-width:1025px) {}
+@media screen and (min-width:1025px) {
+	div#content {
+		margin: 0 auto;
+    		padding: 0;
+    		width: 850px;
+	}
+}
 
 
 #footer {
