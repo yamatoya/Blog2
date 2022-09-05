@@ -5,16 +5,18 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Mon, 05 Sep 2022 23:56:39 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 06 Sep 2022 00:03:04 +0900</lastBuildDate>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/05_flare01.html</guid>
       <link>https://poop.jp/2022/09/05_flare01.html</link>
       <title>Flareに関するメモ</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/05_flare01.html"&gt;Flareに関するメモ&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-09-05&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;h2&gt;Observationモード&lt;/h2&gt;
-&lt;p&gt;When the network has passed Observation mode. No date set for that, yet.
-&lt;img src="https://user-images.githubusercontent.com/2118539/188472483-c14006b9-1a41-48f8-9d24-769795b21a28.png" alt="image" /&gt;&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;More information will be published regarding this in the upcoming weeks
+&lt;img src="https://user-images.githubusercontent.com/2118539/188477535-37217535-4711-4f69-b41a-fc4c4915863e.png" alt="image" /&gt;&lt;/p&gt;
+&lt;h2&gt;Observationモード&lt;/h2&gt;
+&lt;p&gt;When the network has passed Observation mode. No date set for that, yet.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://user-images.githubusercontent.com/2118539/188472483-c14006b9-1a41-48f8-9d24-769795b21a28.png" alt="image" /&gt;&lt;/p&gt;
 &lt;p&gt;Should happen rather quickly. But some time will be needed for observation, to make sure everything is running as intended
 &lt;img src="https://user-images.githubusercontent.com/2118539/188472747-3232335a-e6ba-4fd9-bce5-8400fa99c564.png" alt="image" /&gt;&lt;/p&gt;
 &lt;p&gt;Flare mainnet was launched in July. Observation Mode was said to be at least 8 weeks and there was no set date for the FLR token distribution event.&lt;/p&gt;
@@ -25,8 +27,8 @@
 &lt;img src="https://user-images.githubusercontent.com/2118539/188475190-e8864601-a3c4-4518-ac78-1814fb7ad5e3.png" alt="image" /&gt;&lt;/p&gt;
 &lt;p&gt;No, it’s not ended. Validation needs to controlled (67+%) by the data providers, that hasn’t happened yet.
 &lt;img src="https://user-images.githubusercontent.com/2118539/188475319-faabe6fe-36d1-45d7-a977-999f3d45a8b1.png" alt="image" /&gt;&lt;/p&gt;
-&lt;p&gt;They haven't released the software for us to run the nodes, yet. We're hoping for that to happen in the near future. The network itself, is performing well.
-&lt;img src="https://user-images.githubusercontent.com/2118539/188475443-b54485e0-06e7-4f9c-b665-7c705ed937ee.png" alt="image" /&gt;&lt;/p&gt;
+&lt;p&gt;They haven't released the software for us to run the nodes, yet. We're hoping for that to happen in the near future. The network itself, is performing well.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://user-images.githubusercontent.com/2118539/188475443-b54485e0-06e7-4f9c-b665-7c705ed937ee.png" alt="image" /&gt;&lt;/p&gt;
 &lt;h2&gt;wrapとwFLRと報酬&lt;/h2&gt;
 &lt;p&gt;Because you’ll need to wrap your FLR in order to receive monthly airdrop tokens and to delegate
 &lt;img src="https://user-images.githubusercontent.com/2118539/188473046-d08e23ec-d6b3-4090-99ca-e7d934e316a9.png" alt="image" /&gt;&lt;/p&gt;
@@ -48,7 +50,10 @@ https://songbird-explorer.flare.network/address/0x02f0826ef6aD107Cfc861152B32B52
 &lt;img src="https://user-images.githubusercontent.com/2118539/188476346-c6756253-841d-4d81-8fd7-a547a86cc28d.png" alt="image" /&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.ftso.au/songbird-network/2021/11/29/wrap-delegate-claim-troubleshooting-guide.html"&gt;Wrap, Delegate &amp;amp; Claim Troubleshooting | How-To Guides&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;その他&lt;/h2&gt;
-&lt;p&gt;&lt;a href="https://www.ftso.au/songbird-network/2021/10/04/setup-ledger-nano-with-metamask.html"&gt;Set-up Ledger Nano With MetaMask | Songbird Network&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.ftso.au/songbird-network/2021/10/04/setup-ledger-nano-with-metamask.html"&gt;Set-up Ledger Nano With MetaMask | Songbird Network&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;https://flare-explorer.flare.network/&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;</description>
       <pubDate>Mon, 05 Sep 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-09-05T00:00:00+09:00</a10:updated>
