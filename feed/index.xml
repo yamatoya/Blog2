@@ -5,7 +5,22 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Tue, 06 Sep 2022 00:03:04 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 15 Sep 2022 15:59:40 +0900</lastBuildDate>
+    <item>
+      <guid isPermaLink="true">https://poop.jp/2022/09/15_ETH_MERGE.html</guid>
+      <link>https://poop.jp/2022/09/15_ETH_MERGE.html</link>
+      <title>Ethereum The Merge 完了</title>
+      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/15_ETH_MERGE.html"&gt;Ethereum The Merge 完了&lt;/a&gt;&lt;/h1&gt;
+&lt;ul class="date"&gt;&lt;li&gt;2022-09-15&lt;/li&gt;&lt;/ul&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;次の間で、超えたので、「Sep-15-2022 06:42:42 AM +UTC」がThe Mergeの時間になったようです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;15537392 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537392"&gt;58,749,992,660,810,868,737,771&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;15537393 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537393"&gt;58,750,003,716,598,352,816,469&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</description>
+      <pubDate>Thu, 15 Sep 2022 00:00:00 +0900</pubDate>
+      <a10:updated>2022-09-15T00:00:00+09:00</a10:updated>
+    </item>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/05_flare01.html</guid>
       <link>https://poop.jp/2022/09/05_flare01.html</link>
