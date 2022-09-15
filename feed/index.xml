@@ -5,7 +5,7 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 15 Sep 2022 15:59:40 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 15 Sep 2022 16:10:11 +0900</lastBuildDate>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/15_ETH_MERGE.html</guid>
       <link>https://poop.jp/2022/09/15_ETH_MERGE.html</link>
@@ -17,6 +17,12 @@
 &lt;li&gt;15537392 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537392"&gt;58,749,992,660,810,868,737,771&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;15537393 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537393"&gt;58,750,003,716,598,352,816,469&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2&gt;ETH PoW Fair&lt;/h2&gt;
+&lt;p&gt;https://twitter.com/EthereumFair/status/1570304402904469504&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Congrats on the official fork of the ETF at height 15_537_393.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://user-images.githubusercontent.com/2118539/190338264-6b2d73ac-9b93-48d6-a943-a1470b31a051.png" alt="image" /&gt;&lt;/p&gt;
 &lt;/div&gt;</description>
       <pubDate>Thu, 15 Sep 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-09-15T00:00:00+09:00</a10:updated>
