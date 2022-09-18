@@ -41,8 +41,8 @@ static string BuildHtml(string title, string content, string side, string footer
 	<script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js""></script>
+    <a href=""https://poop.jp/""><div id=""header"">poop.jp</div></a>
     <div id=""wrapper"">
-        <a href=""https://poop.jp/""><div id=""header"">poop.jp</div></a>
         <div id=""content"">{content}</div>
         <div id=""side"">{side}</div>
         <div id=""footer"">{footer}</div>
