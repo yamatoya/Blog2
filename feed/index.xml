@@ -5,18 +5,19 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Sun, 18 Sep 2022 09:55:34 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 18 Sep 2022 09:56:52 +0900</lastBuildDate>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/15_ETH_MERGE.html</guid>
       <link>https://poop.jp/2022/09/15_ETH_MERGE.html</link>
       <title>Ethereum The Merge 完了</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/15_ETH_MERGE.html"&gt;Ethereum The Merge 完了&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-09-15&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;p&gt;次の間で、超えたので、「Sep-15-2022 06:42:42 AM +UTC」がThe Mergeの時間になったようです。&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;次の間で、超えたので、「Sep-15-2022 06:42:42 AM +UTC」がThe Mergeが実行された時間になりました。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;15537392 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537392"&gt;58,749,992,660,810,868,737,771&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;15537393 Block / Total Difficulty:&lt;a href="https://etherscan.io/block/15537393"&gt;58,750,003,716,598,352,816,469&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;ETH PoWとして2つのトークンが発生しました。&lt;/p&gt;
 &lt;h2&gt;ETH PoW Fair&lt;/h2&gt;
 &lt;p&gt;https://twitter.com/EthereumFair/status/1570304402904469504&lt;/p&gt;
 &lt;blockquote&gt;
@@ -110,7 +111,7 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <title>SmartHR グレードと報酬</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_smarthrgrade.html"&gt;SmartHR グレードと報酬&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-18&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;p&gt;&lt;a href="https://speakerdeck.com/miyasho88/we-are-hiring"&gt;SmartHRの会社紹介資料&lt;/a&gt; で企業研究。&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;&lt;a href="https://speakerdeck.com/miyasho88/we-are-hiring"&gt;SmartHRの会社紹介資料&lt;/a&gt; で企業研究&lt;/p&gt;
 &lt;h2&gt;評価制度&lt;/h2&gt;
 &lt;p&gt;&lt;img src="https://user-images.githubusercontent.com/2118539/163753535-aeb0472a-9aed-42b3-adaf-1770f46a0713.png" alt="SmartHRの評価制度" /&gt;&lt;/p&gt;
 &lt;p&gt;SmartHRでは半年に1回の評価を実施していて、評価結果に応じて給与改定と成果給を付与しているようです。評価項目は次の3点のようです。&lt;/p&gt;
@@ -145,7 +146,7 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <title>10xのグレードと報酬</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_10xgrade.html"&gt;10xのグレードと報酬&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-18&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;p&gt;10xの&lt;a href="https://speakerdeck.com/10xinc/zhu-shi-hui-she-10x-culture-deck"&gt;Culture Deck&lt;/a&gt; でグレード定義と報酬レンジについて公表されていました。&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;10xの&lt;a href="https://speakerdeck.com/10xinc/zhu-shi-hui-she-10x-culture-deck"&gt;Culture Deck&lt;/a&gt; でグレード定義と報酬レンジについて公表されていました&lt;/p&gt;
 &lt;p&gt;自社のグレードや報酬、採用フローを改善していくにあたり、世間で人気がある企業研究をすることで、アイディアを固めていこうということで今回は10x。&lt;/p&gt;
 &lt;p&gt;報酬レンジとそれぞれのグレードに何人いるかの公表は勇気がいる行動に思えます。この情報公開は当然自社内の人間も見るので、嘘を書いていたり、評価や報酬のゆがみが生じているとマイナスに働きます。社内のデモチ問題。公開できるということは、その問題が生じない社内状況にあるということで素晴らしいですね。&lt;/p&gt;
 &lt;h2&gt;10xのグレード定義&lt;/h2&gt;
@@ -198,7 +199,7 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <title>[書籍] 人を動かす</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/08_HowToWinFriends.html"&gt;[書籍] 人を動かす&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-08&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;p&gt;不定期に読み返しているデール・カーネギー(Dale Breckenridge Carnegie)の「人を動かす」。改めて幾つかメモをしておこう。少し羅列気味。&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;不定期に読み返しているデール・カーネギー(Dale Breckenridge Carnegie)の「人を動かす」。改めて幾つかメモをしておこう。少し羅列気味&lt;/p&gt;
 &lt;h2&gt;人を非難することの無駄&lt;/h2&gt;
 &lt;p&gt;前書きのエピソードを読むと、人を怒ることの意味の無さを理解することができる。怒っても、結局は防御体制にさせてしまい、なんとか正当化しようとしてしまい解決には至らない。&lt;/p&gt;
 &lt;ul&gt;
@@ -266,7 +267,7 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <title>[書籍] 人生は、運よりも実力よりも「勘違いさせる力」で決まっている</title>
       <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/07_kanchigai.html"&gt;[書籍] 人生は、運よりも実力よりも「勘違いさせる力」で決まっている&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-07&lt;/li&gt;&lt;/ul&gt;
-&lt;div class="entry_body"&gt;&lt;p&gt;錯覚資産について認識をして、それをうまく活用していくことでプラスの循環に入りやすくなる。&lt;/p&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;錯覚資産について認識をして、それをうまく活用していくことでプラスの循環に入りやすくなる&lt;/p&gt;
 &lt;h2&gt;人の思考&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;人の特徴
