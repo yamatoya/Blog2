@@ -1,6 +1,6 @@
 # SmartHR グレードと報酬
 
-[SmartHRの会社紹介資料](https://speakerdeck.com/miyasho88/we-are-hiring) で企業研究。
+[SmartHRの会社紹介資料](https://speakerdeck.com/miyasho88/we-are-hiring) で企業研究
 
 評価制度
 ---
