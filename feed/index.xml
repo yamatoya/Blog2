@@ -5,7 +5,38 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Sun, 18 Sep 2022 10:19:19 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 29 Sep 2022 09:46:42 +0900</lastBuildDate>
+    <item>
+      <guid isPermaLink="true">https://poop.jp/2022/09/29_PLAID_team.html</guid>
+      <link>https://poop.jp/2022/09/29_PLAID_team.html</link>
+      <title>「プレイド開発チームにおけるチーム・ジャーニー」からの学び</title>
+      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/29_PLAID_team.html"&gt;「プレイド開発チームにおけるチーム・ジャーニー」からの学び&lt;/a&gt;&lt;/h1&gt;
+&lt;ul class="date"&gt;&lt;li&gt;2022-09-29&lt;/li&gt;&lt;/ul&gt;
+&lt;div class="entry_body"&gt;&lt;p&gt;２０２０年3月5日に公開されていたPLAIDの勉強会資料「プレイド開発チームにおけるチーム・ジャーニー」がとても良かったので気になった部分を抜粋したいと思います。&lt;/p&gt;
+&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/b27a089722694760bd0822ccaaecb6ba" title="プレイド開発チームにおけるチーム・ジャーニー" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 560px; height: 314px;" data-ratio="1.78343949044586"&gt;&lt;/iframe&gt;
+&lt;h2&gt;前提&lt;/h2&gt;
+&lt;img width="967" alt="image" src="https://user-images.githubusercontent.com/2118539/192911972-810b4842-21c7-4de4-a5c1-4a8dde23f34c.png"&gt;
+&lt;p&gt;正解がない中でプロダクトを作っていて、どうすれば価値を提供できるのかがわからない中でプロダクトを作っています。時間には制約があり、時間をかけていると競合他社が提供する価値の方が高くなるかもしれない世の中。&lt;/p&gt;
+&lt;img width="966" alt="image" src="https://user-images.githubusercontent.com/2118539/192912198-092a2119-287e-4fe2-8a6e-1346f350f718.png"&gt;
+&lt;p&gt;チームの生産性を高めて、エンドユーザーへの提供価値を高めたい。それをするためにチームを変化させていく。チームの生産性は、アウトプットの質・量・頻度で決まる。&lt;/p&gt;
+&lt;h2&gt;組織的な変更&lt;/h2&gt;
+&lt;img width="963" alt="image" src="https://user-images.githubusercontent.com/2118539/192912406-a8ec4a41-7f4d-4022-ad0b-687728e700ab.png"&gt;
+&lt;img width="966" alt="image" src="https://user-images.githubusercontent.com/2118539/192912494-ce967ab2-0217-42a9-9ca4-16cad1822122.png"&gt;
+&lt;p&gt;組織をスケールしていくときに、WhyとHow、Whatを担う部分をどう区切るかを考えて、変遷していった。&lt;/p&gt;
+&lt;h2&gt;組織文化&lt;/h2&gt;
+&lt;img width="968" alt="image" src="https://user-images.githubusercontent.com/2118539/192912714-bd3269d8-1dd5-444f-983f-c9a85b864d86.png"&gt;
+&lt;p&gt;「なぜ朝会をするのか？」が納得できるものでないと人はついてこない。だから、挨拶によるリズムづくりを目的とした。形骸化する理由は、Why?の納得性が十分でない時。&lt;/p&gt;
+&lt;img width="963" alt="image" src="https://user-images.githubusercontent.com/2118539/192912949-1d25a5b1-7c37-46f9-a820-90a2b8f8699a.png"&gt;
+&lt;p&gt;この金曜の週間はよく聞くけど、まだ自分で上手く運用できていないけど、これはもう一度考えたい。&lt;/p&gt;
+&lt;h2&gt;問い合わせ対応&lt;/h2&gt;
+&lt;img width="960" alt="image" src="https://user-images.githubusercontent.com/2118539/192913140-00be7f07-240c-400f-a3fd-ccafeb80b487.png"&gt;
+&lt;p&gt;回答はプロダクトサポートサイトで実施していて、そのサイトへの記載をガチャで決めて実施する。&lt;/p&gt;
+&lt;img width="962" alt="image" src="https://user-images.githubusercontent.com/2118539/192913239-bb5ca78a-ab5e-46e0-a79a-c5b74f370b4a.png"&gt;
+&lt;p&gt;ただし、マイクロサービス化が進んで各チームが、そのサービスを所管するようになると負荷が高くなるので、さらに改善を実施した。&lt;/p&gt;
+&lt;/div&gt;</description>
+      <pubDate>Thu, 29 Sep 2022 00:00:00 +0900</pubDate>
+      <a10:updated>2022-09-29T00:00:00+09:00</a10:updated>
+    </item>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/15_ETH_MERGE.html</guid>
       <link>https://poop.jp/2022/09/15_ETH_MERGE.html</link>
