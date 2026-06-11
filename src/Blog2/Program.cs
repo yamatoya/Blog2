@@ -44,7 +44,13 @@ static string BuildHtml(string title, string content, string side, string footer
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js""></script>
-    <header id=""site-header""><div class=""header-inner""><a class=""site-name"" href=""https://poop.jp/"">poop.jp</a></div></header>
+    <header id=""site-header""><div class=""header-inner"">
+        <a class=""site-name"" href=""https://poop.jp/"">poop.jp</a>
+        <nav class=""header-nav"">
+            <a href=""https://poop.jp/feed"">RSS</a>
+            <a href=""https://twitter.com/t_yamatoya/"">Twitter</a>
+        </nav>
+    </div></header>
     <div id=""wrapper"">
         <main id=""content"">{content}</main>
         <aside id=""side"">{side}</aside>
@@ -81,7 +87,7 @@ var articles = Directory.EnumerateFiles(inputDir)
 
         var title = first.TrimStart('#', ' ').TrimEnd(' ');
         var bodyTitle = $"<h1><a href=\"https://poop.jp/{yyyy}/{mm}/{dd_no}.html\">{title}</a></h1>";
-        var bodyDate = $"<ul class=\"date\"><li>{yyyy}-{mm}-{dd}</li></ul>";
+        var bodyDate = $"<ul class=\"date\"><li><a href=\"https://poop.jp/{yyyy}/{mm}/\">{yyyy}-{mm}-{dd}</a></li></ul>";
         var body = "<div class=\"entry_body\">" + Markdown.ToHtml(others) + "</div>";
 
         return new Article(
@@ -101,7 +107,20 @@ var sideArchives = articles
     .OrderByDescending(x => x.Key)
     .Select(x => $"<li><a href=\"https://poop.jp/{x.Key.yyyy}/{x.Key.mm}/\">{x.Key.yyyy}-{x.Key.mm}</a>");
 
+var sideRecent = articles
+    .Take(5)
+    .Select(x => $"<li><span class=\"side-date\">{x.Url.yyyy}-{x.Url.mm}-{x.Url.dd}</span><a href=\"{x.Url}\">{WebUtility.HtmlEncode(x.Title)}</a></li>");
+
 var side = $@"
+<section class=""side-wide"">
+<h3>Recent Posts</h3>
+<div class=""side_body"">
+<ul>
+{string.Join(Environment.NewLine, sideRecent)}
+</ul>
+</div>
+</section>
+
 <section>
 <h3>Profile</h3>
 <div class=""side_body"">
@@ -151,7 +170,10 @@ await Parallel.ForEachAsync(articles.GroupBy(x => x.Url.yyyy), async (yyyy, _) =
         {
             var filePath = $"{item.Url.yyyy}/{item.Url.mm}/{item.Url.dd_no}.html";
             Console.WriteLine($"Generating {filePath}");
-            var html = BuildHtml("poop jp- " + item.Title, item.Body, side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
+            var idx = Array.IndexOf(articles, item);
+            var newer = (idx > 0) ? articles[idx - 1] : null;
+            var older = (idx < articles.Length - 1) ? articles[idx + 1] : null;
+            var html = BuildHtml("poop jp- " + item.Title, item.Body + BuildPostNav(newer, older), side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
             await File.WriteAllTextAsync(Path.Combine(mmmmPath, item.Url.dd_no + ".html"), html);
         }
     }
@@ -163,6 +185,35 @@ await CreateRssAsync(Path.Combine(rssPath, "index.xml"), articles.Take(10));
 
 // end
 Console.WriteLine("Completed: " + sw.Elapsed);
+
+/// <summary>Build newer/older navigation for a single article page</summary>
+static string BuildPostNav(Article? newer, Article? older)
+{
+    var sb = new StringBuilder();
+    sb.AppendLine("<nav class=\"post-nav\">");
+
+    if (newer != null)
+    {
+        sb.AppendLine($"<a class=\"post-nav-item post-nav-newer\" href=\"{newer.Url}\"><span class=\"post-nav-label\">&larr; Newer</span><span class=\"post-nav-title\">{WebUtility.HtmlEncode(newer.Title)}</span></a>");
+    }
+    else
+    {
+        sb.AppendLine("<span class=\"post-nav-item post-nav-empty\"></span>");
+    }
+
+    if (older != null)
+    {
+        sb.AppendLine($"<a class=\"post-nav-item post-nav-older\" href=\"{older.Url}\"><span class=\"post-nav-label\">Older &rarr;</span><span class=\"post-nav-title\">{WebUtility.HtmlEncode(older.Title)}</span></a>");
+    }
+    else
+    {
+        sb.AppendLine("<span class=\"post-nav-item post-nav-empty\"></span>");
+    }
+
+    sb.AppendLine("<a class=\"post-nav-all\" href=\"https://poop.jp/\">All Posts</a>");
+    sb.AppendLine("</nav>");
+    return sb.ToString();
+}
 
 /// <summary>Create and return combined path</summary>
 string CreateDirectory(string root, string path)
