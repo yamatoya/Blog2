@@ -90,11 +90,17 @@ var articles = Directory.EnumerateFiles(inputDir)
         var bodyDate = $"<ul class=\"date\"><li><a href=\"https://poop.jp/{yyyy}/{mm}/\">{yyyy}-{mm}-{dd}</a></li></ul>";
         var body = "<div class=\"entry_body\">" + Markdown.ToHtml(others) + "</div>";
 
+        var plainText = Markdown.ToPlainText(others);
+        plainText = Regex.Replace(plainText, @"<[^>]*>", " "); // ToPlainText passes raw HTML blocks through
+        plainText = Regex.Replace(plainText, @"\s+", " ").Trim();
+        var excerpt = (plainText.Length > 120) ? plainText.Substring(0, 120) + "…" : plainText;
+
         return new Article(
             Url: new PageUrl(yyyy, mm, dd, dd_no),
             Body: "<article class=\"entry\">" + Environment.NewLine + bodyTitle + Environment.NewLine + bodyDate + Environment.NewLine + body + Environment.NewLine + "</article>",
             OriginalBody: others,
-            Title: title
+            Title: title,
+            Excerpt: excerpt
         );
     })
     .WhereNotNull()
@@ -173,7 +179,7 @@ await Parallel.ForEachAsync(articles.GroupBy(x => x.Url.yyyy), async (yyyy, _) =
             var idx = Array.IndexOf(articles, item);
             var newer = (idx > 0) ? articles[idx - 1] : null;
             var older = (idx < articles.Length - 1) ? articles[idx + 1] : null;
-            var html = BuildHtml("poop jp- " + item.Title, item.Body + BuildPostNav(newer, older), side, footer, $"https://poop.jp/{filePath}", item.OriginalBody);
+            var html = BuildHtml("poop jp- " + item.Title, item.Body + BuildPostNav(newer, older), side, footer, $"https://poop.jp/{filePath}", item.Excerpt);
             await File.WriteAllTextAsync(Path.Combine(mmmmPath, item.Url.dd_no + ".html"), html);
         }
     }
@@ -254,10 +260,16 @@ async Task GenerateIndexWithPagingAsync(IEnumerable<Article> source, string root
     foreach (var items in articles)
     {
         var body = new StringBuilder();
+        body.AppendLine("<div class=\"entry-list\">");
         foreach (var item in items)
         {
-            body.AppendLine(item.Body);
+            body.AppendLine("<article class=\"entry-list-item\">");
+            body.AppendLine($"<ul class=\"date\"><li><a href=\"https://poop.jp/{item.Url.yyyy}/{item.Url.mm}/\">{item.Url.yyyy}-{item.Url.mm}-{item.Url.dd}</a></li></ul>");
+            body.AppendLine($"<h2 class=\"entry-list-title\"><a href=\"{item.Url}\">{WebUtility.HtmlEncode(item.Title)}</a></h2>");
+            body.AppendLine($"<p class=\"entry-list-excerpt\">{WebUtility.HtmlEncode(item.Excerpt)}</p>");
+            body.AppendLine("</article>");
         }
+        body.AppendLine("</div>");
 
         var pager = new StringBuilder();
 
@@ -322,7 +334,7 @@ async Task CreateRssAsync(string path, IEnumerable<Article> articles)
     }
 }
 
-public record Article(string Title, string Body, PageUrl Url, string OriginalBody) : IComparable<Article>
+public record Article(string Title, string Body, PageUrl Url, string OriginalBody, string Excerpt) : IComparable<Article>
 {
     public int CompareTo(Article? other)
     {
