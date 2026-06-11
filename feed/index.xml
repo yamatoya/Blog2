@@ -5,12 +5,13 @@
     <link>http://poop.jp/</link>
     <description>C# Technical Blog</description>
     <language>ja</language>
-    <lastBuildDate>Thu, 29 Sep 2022 09:46:42 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 15:24:58 +0900</lastBuildDate>
     <item>
       <guid isPermaLink="true">https://poop.jp/2022/09/29_PLAID_team.html</guid>
       <link>https://poop.jp/2022/09/29_PLAID_team.html</link>
       <title>「プレイド開発チームにおけるチーム・ジャーニー」からの学び</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/29_PLAID_team.html"&gt;「プレイド開発チームにおけるチーム・ジャーニー」からの学び&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/29_PLAID_team.html"&gt;「プレイド開発チームにおけるチーム・ジャーニー」からの学び&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-09-29&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;２０２０年3月5日に公開されていたPLAIDの勉強会資料「プレイド開発チームにおけるチーム・ジャーニー」がとても良かったので気になった部分を抜粋したいと思います。&lt;/p&gt;
 &lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/b27a089722694760bd0822ccaaecb6ba" title="プレイド開発チームにおけるチーム・ジャーニー" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 560px; height: 314px;" data-ratio="1.78343949044586"&gt;&lt;/iframe&gt;
@@ -33,7 +34,8 @@
 &lt;p&gt;回答はプロダクトサポートサイトで実施していて、そのサイトへの記載をガチャで決めて実施する。&lt;/p&gt;
 &lt;img width="962" alt="image" src="https://user-images.githubusercontent.com/2118539/192913239-bb5ca78a-ab5e-46e0-a79a-c5b74f370b4a.png"&gt;
 &lt;p&gt;ただし、マイクロサービス化が進んで各チームが、そのサービスを所管するようになると負荷が高くなるので、さらに改善を実施した。&lt;/p&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Thu, 29 Sep 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-09-29T00:00:00+09:00</a10:updated>
     </item>
@@ -41,7 +43,8 @@
       <guid isPermaLink="true">https://poop.jp/2022/09/15_ETH_MERGE.html</guid>
       <link>https://poop.jp/2022/09/15_ETH_MERGE.html</link>
       <title>Ethereum The Merge 完了</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/15_ETH_MERGE.html"&gt;Ethereum The Merge 完了&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/15_ETH_MERGE.html"&gt;Ethereum The Merge 完了&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-09-15&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;次の間で、超えたので、「Sep-15-2022 06:42:42 AM +UTC」がThe Mergeが実行された時間になりました。&lt;/p&gt;
 &lt;ul&gt;
@@ -70,7 +73,8 @@ Currency Symbol: ETHW
 Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;a href="https://oklink.com/en/ethw"&gt;ETHW Explorer Launched!!&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Thu, 15 Sep 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-09-15T00:00:00+09:00</a10:updated>
     </item>
@@ -78,7 +82,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <guid isPermaLink="true">https://poop.jp/2022/09/05_flare01.html</guid>
       <link>https://poop.jp/2022/09/05_flare01.html</link>
       <title>Flareに関するメモ</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/05_flare01.html"&gt;Flareに関するメモ&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/09/05_flare01.html"&gt;Flareに関するメモ&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-09-05&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;h2&gt;2022/09/18時点 まとめ&lt;/h2&gt;
 &lt;img width="693" alt="image" src="https://user-images.githubusercontent.com/2118539/190881460-21253611-7b3c-4c5b-ad4f-6a11a1da0e76.png"&gt;
@@ -124,7 +129,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;li&gt;&lt;a href="https://www.ftso.au/songbird-network/2021/10/04/setup-ledger-nano-with-metamask.html"&gt;Set-up Ledger Nano With MetaMask | Songbird Network&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;https://flare-explorer.flare.network/&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Mon, 05 Sep 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-09-05T00:00:00+09:00</a10:updated>
     </item>
@@ -132,7 +138,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <guid isPermaLink="true">https://poop.jp/2022/04/18_smarthrgrade.html</guid>
       <link>https://poop.jp/2022/04/18_smarthrgrade.html</link>
       <title>SmartHR グレードと報酬</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_smarthrgrade.html"&gt;SmartHR グレードと報酬&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_smarthrgrade.html"&gt;SmartHR グレードと報酬&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-18&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;&lt;a href="https://speakerdeck.com/miyasho88/we-are-hiring"&gt;SmartHRの会社紹介資料&lt;/a&gt; で企業研究&lt;/p&gt;
 &lt;h2&gt;評価制度&lt;/h2&gt;
@@ -159,7 +166,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;p&gt;現在は1と6等級がエンジニアにはいないようです。4等級が56%、5等級が20%をしめています。&lt;/p&gt;
 &lt;p&gt;5等級が事実上の青天井設定になっていて、高スキルについてはグレード基準で評価しきれない部分があり、それを補うための設定となっているようです。&lt;/p&gt;
 &lt;p&gt;全社的な平均年収は651万となっていますが職種混在と考えると、エンジニアの平均年収は700万に到達してるかもしれないですね。&lt;/p&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Mon, 18 Apr 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-04-18T00:00:00+09:00</a10:updated>
     </item>
@@ -167,7 +175,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <guid isPermaLink="true">https://poop.jp/2022/04/18_10xgrade.html</guid>
       <link>https://poop.jp/2022/04/18_10xgrade.html</link>
       <title>10xのグレードと報酬</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_10xgrade.html"&gt;10xのグレードと報酬&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/18_10xgrade.html"&gt;10xのグレードと報酬&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-18&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;10xの&lt;a href="https://speakerdeck.com/10xinc/zhu-shi-hui-she-10x-culture-deck"&gt;Culture Deck&lt;/a&gt; でグレード定義と報酬レンジについて公表されていました&lt;/p&gt;
 &lt;p&gt;自社のグレードや報酬、採用フローを改善していくにあたり、世間で人気がある企業研究をすることで、アイディアを固めていこうということで今回は10x。&lt;/p&gt;
@@ -212,7 +221,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;/ol&gt;
 &lt;p&gt;「情報へのアクセスを付与した上で、トライアルで取り組むイシューを提案してもらい、合意する」というとことで、評価軸の1つである「プロジェクトの推進力：問題発見・方針策定・要件調整など」の実務レベルを確認しやすそうですね。実務ベースで最終ジャッジができるのは相互でのミスマッチを予め防げるのでいい気がします。&lt;/p&gt;
 &lt;p&gt;採用候補者への開示できる情報の整備とそれに基づいて提案してもらった課題のジャッジと実際の対応ってのは迎える側も準備は必要ですが、候補者側のメリットも大きそうです。&lt;/p&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Mon, 18 Apr 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-04-18T00:00:00+09:00</a10:updated>
     </item>
@@ -220,7 +230,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <guid isPermaLink="true">https://poop.jp/2022/04/08_HowToWinFriends.html</guid>
       <link>https://poop.jp/2022/04/08_HowToWinFriends.html</link>
       <title>[書籍] 人を動かす</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/08_HowToWinFriends.html"&gt;[書籍] 人を動かす&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/08_HowToWinFriends.html"&gt;[書籍] 人を動かす&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-08&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;不定期に読み返しているデール・カーネギー(Dale Breckenridge Carnegie)の「人を動かす」。改めて幾つかメモをしておこう。少し羅列気味&lt;/p&gt;
 &lt;h2&gt;人を非難することの無駄&lt;/h2&gt;
@@ -280,7 +291,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;li&gt;売りつける必要はない。&lt;/li&gt;
 &lt;li&gt;まず相手の心の中に強い欲求を起こさせること。これをやれる人は、万人の支持を得ることに成功し、やれない人は、ひとりの支持者を得ることにも失敗する。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Fri, 08 Apr 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-04-08T00:00:00+09:00</a10:updated>
     </item>
@@ -288,7 +300,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
       <guid isPermaLink="true">https://poop.jp/2022/04/07_kanchigai.html</guid>
       <link>https://poop.jp/2022/04/07_kanchigai.html</link>
       <title>[書籍] 人生は、運よりも実力よりも「勘違いさせる力」で決まっている</title>
-      <description>&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/07_kanchigai.html"&gt;[書籍] 人生は、運よりも実力よりも「勘違いさせる力」で決まっている&lt;/a&gt;&lt;/h1&gt;
+      <description>&lt;article class="entry"&gt;
+&lt;h1&gt;&lt;a href="https://poop.jp/2022/04/07_kanchigai.html"&gt;[書籍] 人生は、運よりも実力よりも「勘違いさせる力」で決まっている&lt;/a&gt;&lt;/h1&gt;
 &lt;ul class="date"&gt;&lt;li&gt;2022-04-07&lt;/li&gt;&lt;/ul&gt;
 &lt;div class="entry_body"&gt;&lt;p&gt;錯覚資産について認識をして、それをうまく活用していくことでプラスの循環に入りやすくなる&lt;/p&gt;
 &lt;h2&gt;人の思考&lt;/h2&gt;
@@ -329,7 +342,8 @@ Block Explorer URL(Optional): https://mainnet.ethwscan.com
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;</description>
+&lt;/div&gt;
+&lt;/article&gt;</description>
       <pubDate>Thu, 07 Apr 2022 00:00:00 +0900</pubDate>
       <a10:updated>2022-04-07T00:00:00+09:00</a10:updated>
     </item>
