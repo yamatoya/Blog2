@@ -31,23 +31,27 @@ static string BuildHtml(string title, string content, string side, string footer
 <head>
     <meta charset=""utf-8"" />
     <title>{title}</title>
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
     <link rel=""alternate"" type=""application/rss+xml"" href=""https://poop.jp/feed""/>
-	<link rel=""stylesheet"" href=""https://poop.jp/style.css"" type=""text/css"" media=""screen"" />
+    <link rel=""preconnect"" href=""https://fonts.googleapis.com"">
+    <link rel=""preconnect"" href=""https://fonts.gstatic.com"" crossorigin>
+    <link href=""https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"" rel=""stylesheet"">
+    <link rel=""stylesheet"" href=""/style.css"" type=""text/css"" media=""screen"" />
     <link href=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css"" rel=""stylesheet"" />
     {og}
-     <meta data-n-head=""ssr"" name=""viewport"" content=""width=device-width, initial-scale=1.0"">
- </head>
+</head>
 <body>
-	<script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js""></script>
+    <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js""></script>
     <script src=""https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js""></script>
-    <a href=""https://poop.jp/""><div id=""header"">poop.jp</div></a>
+    <header id=""site-header""><div class=""header-inner""><a class=""site-name"" href=""https://poop.jp/"">poop.jp</a></div></header>
     <div id=""wrapper"">
-        <div id=""content"">{content}</div>
-        <div id=""side"">{side}</div>
-        <div id=""footer"">{footer}</div>
+        <main id=""content"">{content}</main>
+        <aside id=""side"">{side}</aside>
+        <footer id=""footer"">{footer}</footer>
     </div>
 </body>
+</html>
 ";
 }
 
@@ -82,7 +86,7 @@ var articles = Directory.EnumerateFiles(inputDir)
 
         return new Article(
             Url: new PageUrl(yyyy, mm, dd, dd_no),
-            Body: bodyTitle + Environment.NewLine + bodyDate + Environment.NewLine + body,
+            Body: "<article class=\"entry\">" + Environment.NewLine + bodyTitle + Environment.NewLine + bodyDate + Environment.NewLine + body + Environment.NewLine + "</article>",
             OriginalBody: others,
             Title: title
         );
@@ -98,31 +102,35 @@ var sideArchives = articles
     .Select(x => $"<li><a href=\"https://poop.jp/{x.Key.yyyy}/{x.Key.mm}/\">{x.Key.yyyy}-{x.Key.mm}</a>");
 
 var side = $@"
+<section>
 <h3>Profile</h3>
-<div class=""side_body"" align=""center"">
+<div class=""side_body"">
 <b>Takahito Yamatoya</b><br />
-<br />
-Twitter:<a href=""https://twitter.com/t_yamatoya/"">@t_yamatoya</a>
+Twitter: <a href=""https://twitter.com/t_yamatoya/"">@t_yamatoya</a>
 </div>
+</section>
 
+<section>
 <h3>Archive</h3>
 <div class=""side_body"">
 <ul>
 {string.Join(Environment.NewLine, sideArchives)}
 </ul>
 </div>
+</section>
 ";
 
 // Create footer
 var footer = @"<ul>
-<li>Index: <a href=""https://poop.jp"">poop.jp</a><li>
-<li>RSS feed: <a href=""https://poop.jp/feed"">poop.jp/feed</a><li>
-<li>Powered by: <a href=""https://github.com/yamatoya/Blog2"">https://github.com/yamatoya/Blog2</a>
+<li><a href=""https://poop.jp"">poop.jp</a></li>
+<li>RSS: <a href=""https://poop.jp/feed"">feed</a></li>
+<li>Powered by <a href=""https://github.com/yamatoya/Blog2"">Blog2</a></li>
 </ul>";
 
 // Generate Root Index
 var rootDir = outputDir;
 CreateDirectory(rootDir, "");
+File.Copy(Path.Combine(AppContext.BaseDirectory, "style.css"), Path.Combine(rootDir, "style.css"), overwrite: true);
 await GenerateIndexWithPagingAsync(articles, rootDir, null);
 
 // Generate YYYY/index.html
@@ -200,23 +208,24 @@ async Task GenerateIndexWithPagingAsync(IEnumerable<Article> source, string root
             body.AppendLine(item.Body);
         }
 
+        var pager = new StringBuilder();
+
         // hasPrev
         if (page != 1)
         {
-            if ((page - 1) == 1)
-            {
-                body.AppendLine($"<a href=\"{urlRoot}\">Prev |</a>");
-            }
-            else
-            {
-                body.AppendLine($"<a href=\"{urlRoot}/{page - 1}\">Prev |</a>");
-            }
+            var prevUrl = ((page - 1) == 1) ? urlRoot : $"{urlRoot}/{page - 1}";
+            pager.AppendLine($"<a class=\"pager-prev\" href=\"{prevUrl}\">&larr; Prev</a>");
         }
 
         // hasNext
         if (page != articles.Length)
         {
-            body.AppendLine($"<a href=\"{urlRoot}/{page + 1}\">| Next</a>");
+            pager.AppendLine($"<a class=\"pager-next\" href=\"{urlRoot}/{page + 1}\">Next &rarr;</a>");
+        }
+
+        if (pager.Length > 0)
+        {
+            body.AppendLine($"<nav class=\"pager\">{Environment.NewLine}{pager}</nav>");
         }
 
         var t = (title == null) ? "poop jp" : ("poop jp - " + title);
