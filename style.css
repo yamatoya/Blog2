@@ -173,6 +173,53 @@ ul.date a:hover {
     color: var(--accent);
 }
 
+/* ---------- Entry list (index pages) ---------- */
+
+.entry-list {
+    padding: 16px 0;
+}
+
+.entry-list-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.entry-list-item:last-of-type {
+    border-bottom: none;
+}
+
+.entry-list-item ul.date {
+    margin: 0 0 6px;
+}
+
+.entry-list-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    font-feature-settings: "palt" 1;
+}
+
+.entry-list-title a {
+    color: var(--fg);
+}
+
+.entry-list-title a:hover {
+    color: var(--accent);
+}
+
+.entry-list-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
 /* ---------- Entry body ---------- */
 
 .entry_body {
@@ -513,5 +560,13 @@ a.post-nav-item:hover .post-nav-title {
 
     .entry h1 {
         font-size: 21px;
+    }
+
+    .entry-list-item {
+        padding: 24px 0;
+    }
+
+    .entry-list-title {
+        font-size: 18px;
     }
 }
