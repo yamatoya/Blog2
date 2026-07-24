@@ -117,6 +117,32 @@ var sideRecent = articles
     .Take(5)
     .Select(x => $"<li><span class=\"side-date\">{x.Url.yyyy}-{x.Url.mm}-{x.Url.dd}</span><a href=\"{x.Url}\">{WebUtility.HtmlEncode(x.Title)}</a></li>");
 
+// Static pages (static/ dir next to the articles dir), linked from the side section
+var staticDir = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(inputDir.TrimEnd('/', '\\')))!, "static");
+var staticPages = Directory.Exists(staticDir)
+    ? Directory.EnumerateFiles(staticDir, "*.html", SearchOption.AllDirectories)
+        .Select(f =>
+        {
+            var rel = Path.GetRelativePath(staticDir, f).Replace('\\', '/');
+            var match = Regex.Match(File.ReadAllText(f), @"<title>\s*(.*?)\s*</title>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            var title = match.Success ? WebUtility.HtmlDecode(match.Groups[1].Value) : rel;
+            return (Url: $"https://poop.jp/{rel}", Title: title);
+        })
+        .OrderBy(x => x.Url)
+        .ToArray()
+    : Array.Empty<(string Url, string Title)>();
+
+var staticSection = (staticPages.Length == 0) ? "" : $@"
+<section class=""side-wide"">
+<h3>Reports</h3>
+<div class=""side_body"">
+<ul>
+{string.Join(Environment.NewLine, staticPages.Select(x => $"<li><a href=\"{x.Url}\">{WebUtility.HtmlEncode(x.Title)}</a></li>"))}
+</ul>
+</div>
+</section>
+";
+
 var side = $@"
 <section class=""side-wide"">
 <h3>Recent Posts</h3>
@@ -126,7 +152,7 @@ var side = $@"
 </ul>
 </div>
 </section>
-
+{staticSection}
 <section>
 <h3>Profile</h3>
 <div class=""side_body"">
@@ -157,8 +183,7 @@ var rootDir = outputDir;
 CreateDirectory(rootDir, "");
 File.Copy(Path.Combine(AppContext.BaseDirectory, "style.css"), Path.Combine(rootDir, "style.css"), overwrite: true);
 
-// Copy static files verbatim (static/ dir next to the articles dir, e.g. static/reports/foo.html -> /reports/foo.html)
-var staticDir = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(inputDir.TrimEnd('/', '\\')))!, "static");
+// Copy static files verbatim (e.g. static/reports/foo.html -> /reports/foo.html)
 if (Directory.Exists(staticDir))
 {
     foreach (var file in Directory.EnumerateFiles(staticDir, "*", SearchOption.AllDirectories))
