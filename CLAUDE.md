@@ -24,6 +24,7 @@ dotnet build Blog2.sln
 - 1行目は必ず `# タイトル` で始める（`#` で始まらないと例外）。1行目がタイトル、2行目以降が本文（Markdig で HTML 変換、生 HTML の埋め込み可）。
 - ファイル名から URL が決まる: `YYYY-MM-DD_foo.md` → `https://poop.jp/YYYY/MM/DD_foo.html`
 - `drafts/` は下書き置き場（生成対象外）。
+- `static/` は静的ファイル置き場。ディレクトリ構造ごと出力ルートへそのままコピーされる（例: `static/reports/foo.html` → `https://poop.jp/reports/foo.html`）。単発のHTMLレポート等を公開したいときはここに置く。
 
 ## アーキテクチャ
 

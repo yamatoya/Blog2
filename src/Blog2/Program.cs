@@ -156,6 +156,20 @@ var footer = @"<ul>
 var rootDir = outputDir;
 CreateDirectory(rootDir, "");
 File.Copy(Path.Combine(AppContext.BaseDirectory, "style.css"), Path.Combine(rootDir, "style.css"), overwrite: true);
+
+// Copy static files verbatim (static/ dir next to the articles dir, e.g. static/reports/foo.html -> /reports/foo.html)
+var staticDir = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(inputDir.TrimEnd('/', '\\')))!, "static");
+if (Directory.Exists(staticDir))
+{
+    foreach (var file in Directory.EnumerateFiles(staticDir, "*", SearchOption.AllDirectories))
+    {
+        var rel = Path.GetRelativePath(staticDir, file);
+        var dest = Path.Combine(rootDir, rel);
+        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+        Console.WriteLine($"Copying static {rel}");
+        File.Copy(file, dest, overwrite: true);
+    }
+}
 await GenerateIndexWithPagingAsync(articles, rootDir, null);
 
 // Generate YYYY/index.html
