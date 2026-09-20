@@ -6,26 +6,32 @@
 <title>港区グルメマップ — 赤坂発・徒歩圏ガイド</title>
 <style>
   :root {
-    --bg: #0d0f13;
-    --bg-elevated: #14171d;
-    --bg-card: #171a21;
-    --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.14);
-    --fg: #eef0f3;
-    --fg-secondary: #a7adb8;
-    --fg-muted: #6b7280;
-    --fg-faint: #454b57;
-    --accent: #ff8a3d;
-    --accent-dim: rgba(255,138,61,0.14);
-    --accent-border: rgba(255,138,61,0.35);
+    --bg: #fdf9f3;
+    --bg-elevated: #fff6ea;
+    --bg-card: #ffffff;
+    --border: rgba(120,53,15,0.10);
+    --border-strong: rgba(120,53,15,0.20);
+    --fg: #3a2318;
+    --fg-secondary: #7a5c48;
+    --fg-muted: #a1876f;
+    --fg-faint: #c9b39d;
+    --accent: #e1481f;
+    --accent-dim: rgba(225,72,31,0.10);
+    --accent-border: rgba(225,72,31,0.32);
+    --accent-2: #f2a30f;
+    --accent-2-dim: rgba(242,163,15,0.14);
+    --accent-2-border: rgba(242,163,15,0.4);
     --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
     --sans: -apple-system, "SF Pro Display", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    --shadow-card: 0 1px 2px rgba(120,53,15,0.05), 0 3px 10px rgba(120,53,15,0.06);
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     background: var(--bg);
+    background-image: radial-gradient(circle at 12% 0%, rgba(242,163,15,0.08), transparent 42%),
+                       radial-gradient(circle at 100% 18%, rgba(225,72,31,0.06), transparent 45%);
     color: var(--fg);
     font-family: var(--sans);
     font-size: 14px;
@@ -37,7 +43,7 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(13,15,19,0.92);
+    background: rgba(253,249,243,0.88);
     backdrop-filter: blur(12px);
     border-bottom: 0.5px solid var(--border);
     padding: 20px 32px 16px;
@@ -60,10 +66,10 @@
     gap: 10px;
   }
   .title-block h1 .dot {
-    width: 8px; height: 8px;
+    width: 9px; height: 9px;
     border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 12px var(--accent-dim);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 10px rgba(225,72,31,0.35);
   }
   .title-block .sub {
     font-size: 12px;
@@ -168,26 +174,28 @@
     gap: 6px;
     font-family: var(--sans);
     font-size: 12.5px;
-    font-weight: 500;
+    font-weight: 600;
     padding: 7px 14px;
     border-radius: 6px;
-    border: 0.5px solid var(--accent-border);
-    background: var(--accent-dim);
-    color: var(--accent);
+    border: none;
+    background: linear-gradient(135deg, var(--accent), #f2650f);
+    color: #fff8f0;
     cursor: pointer;
     white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(225,72,31,0.28);
     transition: all 150ms cubic-bezier(0.25,1,0.5,1);
   }
-  .roulette-btn:hover { background: rgba(255,138,61,0.22); transform: translateY(-1px); }
+  .roulette-btn:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(225,72,31,0.34); }
   .roulette-btn:active { transform: translateY(0); }
-  .roulette-btn:disabled:hover { background: var(--accent-dim); transform: none; }
+  .roulette-btn:disabled { opacity: 0.4; box-shadow: none; }
+  .roulette-btn:disabled:hover { filter: none; transform: none; }
 
   /* ---------- Roulette modal ---------- */
   .roulette-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(5,6,8,0.72);
+    background: rgba(58,35,24,0.55);
     backdrop-filter: blur(6px);
     z-index: 100;
     align-items: center;
@@ -205,7 +213,7 @@
     max-height: 85vh;
     overflow-y: auto;
     padding: 28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(58,35,24,0.28);
   }
   .roulette-close {
     position: absolute;
@@ -317,14 +325,15 @@
     margin-top: 14px;
     padding: 10px;
     border-radius: 8px;
-    border: 0.5px solid var(--accent-border);
-    background: var(--accent-dim);
-    color: var(--accent);
+    border: none;
+    background: linear-gradient(135deg, var(--accent), #f2650f);
+    color: #fff8f0;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(225,72,31,0.24);
   }
-  .roulette-reroll:hover { background: rgba(255,138,61,0.22); }
+  .roulette-reroll:hover { filter: brightness(1.06); }
 
   main { max-width: 1280px; margin: 0 auto; padding: 20px 32px 80px; }
 
@@ -348,12 +357,13 @@
     border: 0.5px solid var(--border);
     border-radius: 10px;
     padding: 16px;
-    transition: border-color 150ms cubic-bezier(0.25,1,0.5,1);
+    box-shadow: var(--shadow-card);
+    transition: border-color 150ms cubic-bezier(0.25,1,0.5,1), box-shadow 150ms cubic-bezier(0.25,1,0.5,1), transform 150ms cubic-bezier(0.25,1,0.5,1);
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-  .card:hover { border-color: var(--border-strong); }
+  .card:hover { border-color: var(--border-strong); box-shadow: 0 4px 16px rgba(120,53,15,0.10); transform: translateY(-1px); }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
   .card-name-row { display: flex; flex-direction: column; gap: 4px; }
   .card-name { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); line-height: 1.35; }
@@ -380,25 +390,25 @@
   }
   .rating-reviews { font-family: var(--mono); font-size: 10px; color: var(--fg-faint); }
   .rating-none { font-size: 10.5px; color: var(--fg-faint); font-style: italic; }
-  .rating-top .rating-score { color: #4ade80; }
-  .rating-good .rating-score { color: #a3e635; }
-  .rating-mid .rating-score { color: #facc15; }
+  .rating-top .rating-score { color: #c62e0e; }
+  .rating-good .rating-score { color: var(--accent); }
+  .rating-mid .rating-score { color: #c98418; }
   .rating-low .rating-score { color: var(--fg-muted); }
-  .fill-top { background: #4ade80; }
-  .fill-good { background: #a3e635; }
-  .fill-mid { background: #facc15; }
+  .fill-top { background: linear-gradient(90deg, #e1481f, #c62e0e); }
+  .fill-good { background: linear-gradient(90deg, #f2650f, #e1481f); }
+  .fill-mid { background: var(--accent-2); }
   .fill-low { background: var(--fg-faint); }
 
   .top-pick-badge {
     flex-shrink: 0;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.02em;
     padding: 2px 7px;
     border-radius: 5px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    border: 0.5px solid var(--accent-border);
+    background: linear-gradient(135deg, var(--accent), #c62e0e);
+    color: #fff8f0;
+    border: none;
     white-space: nowrap;
   }
 
@@ -412,10 +422,10 @@
     border-radius: 5px;
     white-space: nowrap;
   }
-  .walk-b0 { background: rgba(76,222,128,0.14); color: #4ade80; }
-  .walk-b1 { background: rgba(250,204,21,0.14); color: #facc15; }
-  .walk-b2 { background: rgba(251,146,60,0.14); color: #fb923c; }
-  .walk-b3 { background: rgba(248,113,113,0.14); color: #f87171; }
+  .walk-b0 { background: rgba(126,155,60,0.14); color: #6f8f3a; }
+  .walk-b1 { background: var(--accent-2-dim); color: #b8790c; }
+  .walk-b2 { background: rgba(242,101,15,0.12); color: #d0570f; }
+  .walk-b3 { background: var(--accent-dim); color: var(--accent); }
 
   .card-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
   .meta-tag {
@@ -426,8 +436,8 @@
     border-radius: 4px;
     padding: 2px 7px;
   }
-  .meta-tag.genre { color: var(--fg-secondary); }
-  .dot-sm { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; vertical-align:middle; }
+  .meta-tag.genre { color: var(--fg-secondary); font-weight: 500; }
+  .dot-sm { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; vertical-align:middle; box-shadow: 0 0 0 2px rgba(255,255,255,0.6); }
   .pin { opacity: 0.6; margin-right: 2px; }
 
   .card-desc { font-size: 12.5px; color: var(--fg-secondary); line-height: 1.55; flex: 1; }
@@ -458,8 +468,8 @@
     padding: 1px 8px;
   }
   .pill-tag-room {
-    color: #4ade80;
-    border-color: rgba(76,222,128,0.3);
+    color: #6f8f3a;
+    border-color: rgba(111,143,58,0.3);
   }
   .card-links {
     display: flex;
@@ -674,10 +684,10 @@
   </div>
 
   <div class="legend-footer">
-    <div class="legend-item"><span class="legend-swatch" style="background:rgba(76,222,128,0.5)"></span>徒歩0-5分</div>
-    <div class="legend-item"><span class="legend-swatch" style="background:rgba(250,204,21,0.5)"></span>徒歩6-10分</div>
-    <div class="legend-item"><span class="legend-swatch" style="background:rgba(251,146,60,0.5)"></span>徒歩11-20分</div>
-    <div class="legend-item"><span class="legend-swatch" style="background:rgba(248,113,113,0.5)"></span>徒歩21分以上</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(111,143,58,0.55)"></span>徒歩0-5分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(242,163,15,0.55)"></span>徒歩6-10分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(242,101,15,0.55)"></span>徒歩11-20分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(225,72,31,0.55)"></span>徒歩21分以上</div>
     <div class="legend-item" style="margin-left:auto">港区グルメノート（Inkdrop）より生成</div>
   </div>
 </main>
@@ -689,11 +699,13 @@
 
   const RESTAURANTS = JSON.parse(document.getElementById('restaurant-data').textContent);
 
+  // Warm-only palette (tomato/citrus/spice tones), no blues/purples/greens/cyans —
+  // keeps genre dots consistent with the page's overall warm color direction.
   const GENRE_COLORS = {
-    "寿司": "#60a5fa", "焼肉・焼鳥": "#f87171", "とんかつ": "#fbbf24",
-    "ラーメン・麺": "#facc15", "中華": "#fb7185", "フレンチ・洋食": "#c084fc",
-    "アジア各国": "#4ade80", "海鮮": "#38bdf8", "定食・和食": "#a3e635",
-    "居酒屋・バー": "#fb923c", "カフェ・スイーツ": "#f0abfc", "その他": "#94a3b8"
+    "寿司": "#c62e0e", "焼肉・焼鳥": "#e1481f", "とんかつ": "#f2a30f",
+    "ラーメン・麺": "#eec73a", "中華": "#d0570f", "フレンチ・洋食": "#a8672f",
+    "アジア各国": "#c98418", "海鮮": "#b5451f", "定食・和食": "#8f6a2e",
+    "居酒屋・バー": "#f2650f", "カフェ・スイーツ": "#e08a2b", "その他": "#a1876f"
   };
 
   function walkBucket(walk) {
