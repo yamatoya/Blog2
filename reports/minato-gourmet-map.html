@@ -355,9 +355,52 @@
   }
   .card:hover { border-color: var(--border-strong); }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-name-row { display: flex; flex-direction: column; gap: 4px; }
   .card-name { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); line-height: 1.35; }
   .card-name a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--fg-faint); }
   .card-name a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Rating bar (visualizes tabelog score at a glance) ---------- */
+  .rating-row { display: flex; align-items: center; gap: 6px; }
+  .rating-bar {
+    width: 64px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .rating-bar-fill { height: 100%; border-radius: 3px 0 0 3px; }
+  .rating-score {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .rating-reviews { font-family: var(--mono); font-size: 10px; color: var(--fg-faint); }
+  .rating-none { font-size: 10.5px; color: var(--fg-faint); font-style: italic; }
+  .rating-top .rating-score { color: #4ade80; }
+  .rating-good .rating-score { color: #a3e635; }
+  .rating-mid .rating-score { color: #facc15; }
+  .rating-low .rating-score { color: var(--fg-muted); }
+  .fill-top { background: #4ade80; }
+  .fill-good { background: #a3e635; }
+  .fill-mid { background: #facc15; }
+  .fill-low { background: var(--fg-faint); }
+
+  .top-pick-badge {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 0.5px solid var(--accent-border);
+    white-space: nowrap;
+  }
 
   .walk-badge {
     flex-shrink: 0;
@@ -440,6 +483,91 @@
   .no-results { text-align: center; padding: 80px 20px; color: var(--fg-faint); }
   .no-results svg { margin-bottom: 12px; opacity: 0.4; }
 
+  /* ---------- View tabs + sort ---------- */
+  .view-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .view-tabs { display: flex; gap: 6px; }
+  .view-tab {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-secondary);
+    cursor: pointer;
+  }
+  .view-tab:hover { border-color: var(--border-strong); color: var(--fg); }
+  .view-tab.active {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+    color: var(--accent);
+  }
+  .sort-select-wrap { display: flex; align-items: center; gap: 8px; }
+  .sort-select-wrap label { font-size: 11px; color: var(--fg-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .sort-select {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg);
+    cursor: pointer;
+    outline: none;
+  }
+  .sort-select:focus { border-color: var(--accent-border); }
+
+  /* ---------- Map view ---------- */
+  .map-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 14px;
+    height: 640px;
+  }
+  .map-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 4px;
+  }
+  .map-list-item {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color 150ms;
+  }
+  .map-list-item:hover { border-color: var(--border-strong); }
+  .map-list-item.active { border-color: var(--accent-border); background: var(--accent-dim); }
+  .map-list-item .name { font-size: 13px; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+  .map-list-item.active .name { color: var(--accent); }
+  .map-list-item .sub { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--fg-muted); }
+  .map-frame-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    background: var(--bg-card);
+    position: relative;
+  }
+  .map-frame-wrap iframe { width: 100%; height: 100%; border: 0; }
+  .map-empty { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--fg-faint); font-size: 13px; }
+
+  @media (max-width: 860px) {
+    .map-layout { grid-template-columns: 1fr; height: auto; }
+    .map-list { max-height: 280px; }
+    .map-frame-wrap { height: 360px; }
+  }
+
   .legend-footer {
     max-width: 1280px;
     margin: 40px auto 0;
@@ -508,11 +636,34 @@
 </header>
 
 <main>
+  <div class="view-row">
+    <div class="view-tabs">
+      <button class="view-tab active" id="tab-list" data-view="list">☰ リスト</button>
+      <button class="view-tab" id="tab-map" data-view="map">📍 マップ</button>
+    </div>
+    <div class="sort-select-wrap">
+      <label for="sort-select">並び替え</label>
+      <select class="sort-select" id="sort-select">
+        <option value="rating">食べログ評価が高い順</option>
+        <option value="walk">近い順（徒歩時間）</option>
+        <option value="reviews">レビュー件数が多い順</option>
+        <option value="name">店名（あいうえお順）</option>
+      </select>
+    </div>
+  </div>
+
   <div class="result-count"><b id="count-num">—</b> 件のスポットを表示中</div>
   <div class="grid" id="grid"></div>
   <div class="no-results" id="no-results" style="display:none;">
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <div>条件に合うお店が見つかりませんでした</div>
+  </div>
+
+  <div class="map-layout" id="map-layout" style="display:none;">
+    <div class="map-list" id="map-list"></div>
+    <div class="map-frame-wrap" id="map-frame-wrap">
+      <div class="map-empty">左のリストからお店を選ぶと地図が表示されます</div>
+    </div>
   </div>
 
   <div class="roulette-overlay" id="roulette-overlay">
@@ -554,7 +705,25 @@
   const WALK_LABELS = ["徒歩0-5分", "徒歩6-10分", "徒歩11-20分", "徒歩21分以上"];
   const WALK_CLASS = ["walk-b0", "walk-b1", "walk-b2", "walk-b3"];
 
-  const state = { genres: new Set(), walks: new Set(), query: "" };
+  // Score bands, tuned to this dataset's actual range (3.02–4.30)
+  function ratingBand(score) {
+    if (score >= 3.9) return 'top';
+    if (score >= 3.6) return 'good';
+    if (score >= 3.3) return 'mid';
+    return 'low';
+  }
+  const RATING_MIN = 3.0, RATING_MAX = 4.3;
+  function ratingPct(score) {
+    return Math.max(4, Math.min(100, ((score - RATING_MIN) / (RATING_MAX - RATING_MIN)) * 100));
+  }
+  // Top-pick: score alone, since review-count is only recorded for a subset of spots
+  // and requiring both would silently exclude well-rated places that simply lack the field.
+  const TOP_PICK_SCORE = 3.9;
+  function isTopPick(r) {
+    return (r.tabelog_score || 0) >= TOP_PICK_SCORE;
+  }
+
+  const state = { genres: new Set(), walks: new Set(), query: "", view: "list", sort: "rating", selectedId: null };
 
   const genreCounts = {};
   RESTAURANTS.forEach(r => { genreCounts[r.genreGroup] = (genreCounts[r.genreGroup] || 0) + 1; });
@@ -627,6 +796,8 @@
     card.dataset.search = (r.name + ' ' + r.area + ' ' + (r.addr || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
 
     const top = el('div', { className: 'card-top' });
+    const nameRow = el('div', { className: 'card-name-row' });
+    const nameLine = el('div', { style: { display: 'flex', alignItems: 'center', gap: '6px' } });
     const nameWrap = el('div', { className: 'card-name' });
     if (r.link) {
       const a = el('a', { text: r.name });
@@ -637,8 +808,35 @@
     } else {
       nameWrap.textContent = r.name;
     }
+    nameLine.appendChild(nameWrap);
+    if (isTopPick(r)) {
+      nameLine.appendChild(el('span', { className: 'top-pick-badge', text: '★ おすすめ' }));
+    }
+    nameRow.appendChild(nameLine);
+
+    // Rating bar: turns the raw tabelog score into an at-a-glance visual signal
+    const ratingRow = el('div', { className: 'rating-row' });
+    if (r.tabelog_score) {
+      const band = ratingBand(r.tabelog_score);
+      const bar = el('div', { className: 'rating-bar' });
+      const fill = el('div', { className: `rating-bar-fill fill-${band}` });
+      fill.style.width = ratingPct(r.tabelog_score) + '%';
+      bar.appendChild(fill);
+      ratingRow.appendChild(bar);
+      const scoreEl = el('span', { className: `rating-score` });
+      scoreEl.classList.add(`rating-${band}`);
+      scoreEl.textContent = '★' + r.tabelog_score.toFixed(2);
+      ratingRow.appendChild(scoreEl);
+      if (r.tabelog_reviews) {
+        ratingRow.appendChild(el('span', { className: 'rating-reviews', text: `(${r.tabelog_reviews})` }));
+      }
+    } else {
+      ratingRow.appendChild(el('span', { className: 'rating-none', text: '評価データなし' }));
+    }
+    nameRow.appendChild(ratingRow);
+
     const badge = el('div', { className: `walk-badge ${WALK_CLASS[wb]}`, text: walkText });
-    top.appendChild(nameWrap);
+    top.appendChild(nameRow);
     top.appendChild(badge);
     card.appendChild(top);
 
@@ -693,6 +891,25 @@
     return card;
   }
 
+  function sortRestaurants(list) {
+    const sorted = list.slice();
+    switch (state.sort) {
+      case 'rating':
+        sorted.sort((a, b) => (b.tabelog_score || 0) - (a.tabelog_score || 0));
+        break;
+      case 'walk':
+        sorted.sort((a, b) => a.walk - b.walk);
+        break;
+      case 'reviews':
+        sorted.sort((a, b) => (b.tabelog_reviews || 0) - (a.tabelog_reviews || 0));
+        break;
+      case 'name':
+        sorted.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+        break;
+    }
+    return sorted;
+  }
+
   function render() {
     document.querySelectorAll('#genre-filters .chip').forEach(c => {
       c.classList.toggle('active', state.genres.has(c.dataset.genre));
@@ -703,11 +920,11 @@
     document.getElementById('genre-clear').style.display = state.genres.size ? 'inline-flex' : 'none';
     document.getElementById('walk-clear').style.display = state.walks.size ? 'inline-flex' : 'none';
 
-    const filtered = RESTAURANTS.filter(matchesFilters);
+    const filtered = sortRestaurants(RESTAURANTS.filter(matchesFilters));
 
     const grid = document.getElementById('grid');
     grid.replaceChildren(...filtered.map(buildCard));
-    document.getElementById('no-results').style.display = filtered.length ? 'none' : 'block';
+    document.getElementById('no-results').style.display = (filtered.length || state.view !== 'list') ? 'none' : 'block';
     document.getElementById('count-num').textContent = String(filtered.length);
     document.getElementById('stat-shown').textContent = String(filtered.length);
 
@@ -719,6 +936,68 @@
     document.getElementById('active-filter-summary').textContent = parts.length ? parts.join(' × ') : '全件表示';
 
     updateRouletteButtonState(filtered.length);
+
+    if (state.view === 'map') renderMapList(filtered);
+  }
+
+  // ---------- Map view ----------
+
+  function mapEmbedUrl(r) {
+    const q = encodeURIComponent(r.name + ' 東京都港区 ' + (r.addr || r.area));
+    return `https://maps.google.com/maps?q=${q}&output=embed`;
+  }
+
+  function showMapFor(r) {
+    const wrap = document.getElementById('map-frame-wrap');
+    const iframe = el('iframe', {
+      attrs: { loading: 'lazy', referrerpolicy: 'no-referrer-when-downgrade', allowfullscreen: '' }
+    });
+    iframe.src = mapEmbedUrl(r);
+    wrap.replaceChildren(iframe);
+    state.selectedId = r.id;
+    document.querySelectorAll('.map-list-item').forEach(item => {
+      item.classList.toggle('active', Number(item.dataset.id) === r.id);
+    });
+  }
+
+  function renderMapList(filtered) {
+    const listEl = document.getElementById('map-list');
+    listEl.replaceChildren(...filtered.map(r => {
+      const item = el('div', { className: 'map-list-item' });
+      item.dataset.id = String(r.id);
+      item.appendChild(el('div', { className: 'name', text: r.name }));
+      const sub = el('div', { className: 'sub' });
+      sub.appendChild(document.createTextNode(`徒歩${r.walk}分・${r.genre}`));
+      if (r.tabelog_score) {
+        const s = el('span', { text: `★${r.tabelog_score.toFixed(2)}` });
+        s.style.color = ({ top: '#4ade80', good: '#a3e635', mid: '#facc15', low: 'var(--fg-muted)' })[ratingBand(r.tabelog_score)];
+        sub.appendChild(s);
+      }
+      item.appendChild(sub);
+      item.addEventListener('click', () => showMapFor(r));
+      listEl.appendChild(item);
+      return item;
+    }));
+
+    if (!filtered.length) {
+      document.getElementById('map-frame-wrap').replaceChildren(
+        el('div', { className: 'map-empty', text: '条件に合うお店がありません' })
+      );
+      state.selectedId = null;
+      return;
+    }
+
+    const current = filtered.find(r => r.id === state.selectedId);
+    showMapFor(current || filtered[0]);
+  }
+
+  function setView(view) {
+    state.view = view;
+    document.getElementById('tab-list').classList.toggle('active', view === 'list');
+    document.getElementById('tab-map').classList.toggle('active', view === 'map');
+    document.getElementById('grid').style.display = view === 'list' ? '' : 'none';
+    document.getElementById('map-layout').style.display = view === 'map' ? 'grid' : 'none';
+    render();
   }
 
   function updateRouletteButtonState(count) {
@@ -838,6 +1117,13 @@
 
   document.getElementById('search-input').addEventListener('input', (e) => {
     state.query = e.target.value;
+    render();
+  });
+
+  document.getElementById('tab-list').addEventListener('click', () => setView('list'));
+  document.getElementById('tab-map').addEventListener('click', () => setView('map'));
+  document.getElementById('sort-select').addEventListener('change', (e) => {
+    state.sort = e.target.value;
     render();
   });
 
