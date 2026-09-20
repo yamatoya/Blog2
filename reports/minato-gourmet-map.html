@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>港区グルメマップ — 赤坂発・徒歩圏ガイド</title>
+<style>
+  :root {
+    --bg: #0d0f13;
+    --bg-elevated: #14171d;
+    --bg-card: #171a21;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --fg: #eef0f3;
+    --fg-secondary: #a7adb8;
+    --fg-muted: #6b7280;
+    --fg-faint: #454b57;
+    --accent: #ff8a3d;
+    --accent-dim: rgba(255,138,61,0.14);
+    --accent-border: rgba(255,138,61,0.35);
+    --mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: -apple-system, "SF Pro Display", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13,15,19,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 20px 32px 16px;
+  }
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .title-block h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .title-block h1 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-dim);
+  }
+  .title-block .sub {
+    font-size: 12px;
+    color: var(--fg-muted);
+    font-family: var(--mono);
+  }
+  .stat-pills { display: flex; gap: 8px; }
+  .stat-pill {
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    text-align: center;
+    min-width: 64px;
+  }
+  .stat-pill .num {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+    display: block;
+  }
+  .stat-pill .label { font-size: 10px; color: var(--fg-muted); letter-spacing: 0.03em; }
+
+  .controls {
+    max-width: 1280px;
+    margin: 16px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-group-label {
+    font-size: 11px;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    align-self: center;
+    font-weight: 500;
+  }
+  .chip {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-secondary);
+    cursor: pointer;
+    transition: all 150ms cubic-bezier(0.25,1,0.5,1);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .chip:hover { border-color: var(--border-strong); color: var(--fg); }
+  .chip.active {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .search-box { margin-left: auto; position: relative; }
+  .search-box input {
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 7px 12px 7px 32px;
+    width: 220px;
+    outline: none;
+    transition: border-color 150ms;
+  }
+  .search-box input:focus { border-color: var(--accent-border); }
+  .search-box input::placeholder { color: var(--fg-faint); }
+  .search-box svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--fg-faint); }
+
+  .divider-row {
+    max-width: 1280px;
+    margin: 14px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11.5px;
+    color: var(--fg-faint);
+  }
+  .divider-row .line { flex: 1; height: 0.5px; background: var(--border); }
+
+  .chip-clear {
+    color: var(--fg-faint);
+    font-size: 11.5px;
+    padding: 5px 10px;
+  }
+  .chip-clear:hover { color: var(--fg-secondary); border-color: var(--border-strong); }
+
+  .roulette-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 0.5px solid var(--accent-border);
+    background: var(--accent-dim);
+    color: var(--accent);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 150ms cubic-bezier(0.25,1,0.5,1);
+  }
+  .roulette-btn:hover { background: rgba(255,138,61,0.22); transform: translateY(-1px); }
+  .roulette-btn:active { transform: translateY(0); }
+  .roulette-btn:disabled:hover { background: var(--accent-dim); transform: none; }
+
+  /* ---------- Roulette modal ---------- */
+  .roulette-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,6,8,0.72);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .roulette-overlay.open { display: flex; }
+  .roulette-modal {
+    position: relative;
+    background: var(--bg-card);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 14px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .roulette-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    color: var(--fg-muted);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .roulette-close:hover { color: var(--fg); border-color: var(--border-strong); }
+
+  .roulette-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .roulette-spinning {
+    text-align: center;
+    padding: 40px 10px;
+    font-size: 15px;
+    color: var(--fg-secondary);
+  }
+  .roulette-spinning .spin-name {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--fg);
+    margin-top: 12px;
+    min-height: 26px;
+  }
+  .roulette-empty {
+    text-align: center;
+    padding: 40px 10px;
+    color: var(--fg-faint);
+  }
+  .roulette-result-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .roulette-result-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .roulette-result-desc {
+    font-size: 13px;
+    color: var(--fg-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .roulette-fact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .roulette-fact {
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .roulette-fact .k {
+    font-size: 10px;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+  .roulette-fact .v {
+    font-size: 12.5px;
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .roulette-links {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .roulette-link-btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 10px;
+    border-radius: 7px;
+    border: 0.5px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-secondary);
+    font-size: 12.5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 150ms;
+  }
+  .roulette-link-btn:hover { border-color: var(--border-strong); color: var(--fg); }
+  .roulette-reroll {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 0.5px solid var(--accent-border);
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .roulette-reroll:hover { background: rgba(255,138,61,0.22); }
+
+  main { max-width: 1280px; margin: 0 auto; padding: 20px 32px 80px; }
+
+  .result-count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .result-count b { color: var(--accent); font-weight: 600; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color 150ms cubic-bezier(0.25,1,0.5,1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover { border-color: var(--border-strong); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-name { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--fg); line-height: 1.35; }
+  .card-name a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--fg-faint); }
+  .card-name a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+  .walk-badge {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+  .walk-b0 { background: rgba(76,222,128,0.14); color: #4ade80; }
+  .walk-b1 { background: rgba(250,204,21,0.14); color: #facc15; }
+  .walk-b2 { background: rgba(251,146,60,0.14); color: #fb923c; }
+  .walk-b3 { background: rgba(248,113,113,0.14); color: #f87171; }
+
+  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .meta-tag {
+    font-size: 11px;
+    color: var(--fg-muted);
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+  .meta-tag.genre { color: var(--fg-secondary); }
+  .dot-sm { display:inline-block; width:6px; height:6px; border-radius:50%; margin-right:4px; vertical-align:middle; }
+  .pin { opacity: 0.6; margin-right: 2px; }
+
+  .card-desc { font-size: 12.5px; color: var(--fg-secondary); line-height: 1.55; flex: 1; }
+  .card-desc.empty { color: var(--fg-faint); font-style: italic; }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--fg-muted);
+    padding-top: 8px;
+    border-top: 0.5px solid var(--border);
+    font-variant-numeric: tabular-nums;
+    gap: 10px;
+  }
+  .card-footer .price { color: var(--fg); font-weight: 500; flex-shrink: 0; max-width: 55%; }
+  .card-footer .addr { color: var(--fg-faint); font-family: var(--sans); font-size: 11px; text-align: right; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .pill-tag {
+    font-size: 10.5px;
+    color: var(--fg-faint);
+    background: transparent;
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1px 8px;
+  }
+  .pill-tag-room {
+    color: #4ade80;
+    border-color: rgba(76,222,128,0.3);
+  }
+  .card-links {
+    display: flex;
+    gap: 6px;
+  }
+  .card-link {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--fg-secondary);
+    text-decoration: none;
+    transition: all 150ms;
+  }
+  .card-link:hover { border-color: var(--border-strong); color: var(--fg); }
+
+  .no-results { text-align: center; padding: 80px 20px; color: var(--fg-faint); }
+  .no-results svg { margin-bottom: 12px; opacity: 0.4; }
+
+  .legend-footer {
+    max-width: 1280px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    gap: 24px;
+    font-size: 11.5px;
+    color: var(--fg-faint);
+    flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 3px; }
+
+  @media (max-width: 720px) {
+    header { padding: 16px 16px 12px; }
+    main { padding: 16px 16px 60px; }
+    .header-top { flex-direction: column; align-items: flex-start; }
+    .search-box { margin-left: 0; width: 100%; }
+    .search-box input { width: 100%; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="title-block">
+      <h1><span class="dot"></span>港区グルメマップ</h1>
+      <div class="sub">起点：赤坂6-6-25（赤坂駅・赤坂見附駅周辺）／ 徒歩時間は目安値</div>
+    </div>
+    <div class="stat-pills">
+      <div class="stat-pill"><span class="num" id="stat-total">—</span><span class="label">SPOTS</span></div>
+      <div class="stat-pill"><span class="num" id="stat-shown">—</span><span class="label">表示中</span></div>
+      <div class="stat-pill"><span class="num" id="stat-genres">—</span><span class="label">ジャンル</span></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="filter-group" id="genre-filters">
+      <span class="filter-group-label">ジャンル（複数選択可）</span>
+    </div>
+    <button class="chip chip-clear" id="genre-clear" style="display:none;">クリア</button>
+  </div>
+  <div class="controls">
+    <div class="filter-group" id="walk-filters">
+      <span class="filter-group-label">徒歩（複数選択可）</span>
+    </div>
+    <button class="chip chip-clear" id="walk-clear" style="display:none;">クリア</button>
+    <div class="search-box">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-input" placeholder="店名・住所・タグで検索…">
+    </div>
+  </div>
+
+  <div class="divider-row">
+    <span>PORT-KU FIELD GUIDE</span>
+    <span class="line"></span>
+    <span id="active-filter-summary">全件表示</span>
+    <button class="roulette-btn" id="roulette-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+      今日の一軒をランダム抽選
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="result-count"><b id="count-num">—</b> 件のスポットを表示中</div>
+  <div class="grid" id="grid"></div>
+  <div class="no-results" id="no-results" style="display:none;">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <div>条件に合うお店が見つかりませんでした</div>
+  </div>
+
+  <div class="roulette-overlay" id="roulette-overlay">
+    <div class="roulette-modal">
+      <button class="roulette-close" id="roulette-close" aria-label="閉じる">✕</button>
+      <div class="roulette-modal-inner" id="roulette-modal-inner"></div>
+    </div>
+  </div>
+
+  <div class="legend-footer">
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(76,222,128,0.5)"></span>徒歩0-5分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(250,204,21,0.5)"></span>徒歩6-10分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(251,146,60,0.5)"></span>徒歩11-20分</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:rgba(248,113,113,0.5)"></span>徒歩21分以上</div>
+    <div class="legend-item" style="margin-left:auto">港区グルメノート（Inkdrop）より生成</div>
+  </div>
+</main>
+
+<script type="application/json" id="restaurant-data">[{"name":"Ramen 翡翠（ラーメン ヒスイ）","area":"赤坂","walk":2,"genre":"ラーメン","desc":"黒さつま鶏・押岡地頭鶏・信濃地鶏・名古屋コーチンの地鶏4種でスープを仕込む無化調ラーメン。食べログ約3.69。フレンチ出身の店主が20年キャリアで作る淡麗〜醤油。","price":"¥1,000〜3,000","addr":"赤坂3-14-2 ドルミ赤坂2F","tags":["ラーメン","一人向き"],"id":0,"genreGroup":"ラーメン・麺","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13306204/","tabelog_score":3.7,"tabelog_reviews":750,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Ramen+翡翠+東京都港区赤坂3-14-2","private_room":"不明（1階が横浜家系ラーメンのビル2階、カウンター中心）","quiet_business":"行列必至の人気店、少人数・一人向き。会食向きではない","price_actual":"¥1,000〜3,999"},{"name":"野菜と酒 Sprout","area":"赤坂見附","walk":2,"genre":"バー・酒場","desc":"都内農家100軒の野菜を使う酒場。名物は旬野菜の瞬間ロースト。ランチ限定「塩麹と野菜のらーめん」¥1,000も。","price":"-","addr":"赤坂3-19-1 東京農村ビル1F","tags":["野菜","ヘルシー"],"link":"https://tabelog.com/tokyo/A1308/A130801/13281008/","id":1,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13281008/","tabelog_score":3.34,"gmap_url":"https://www.google.com/maps/search/?api=1&query=野菜と酒Sprout+東京都港区赤坂3-19-1","private_room":"なし（テーブルも小さめ、最大8名まで）","quiet_business":"こじんまりとした少人数向けの野菜料理酒場。会食よりは少人数向き","price_actual":"夜¥4,000〜4,999"},{"name":"Authentic（オーセンティック）","area":"赤坂","walk":6,"genre":"バーガー","desc":"2006年から続く独立系バーガー店。ブロッコリーチーズバーガーが看板。ハンバーガー百名店に複数回選出。","price":"¥1,000〜3,000","addr":"赤坂2-18-19 赤坂シャレーⅡ1F","tags":["定番","一人向き"],"id":2,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1308/A130802/13030795/","tabelog_score":3.68,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Authentic+東京都港区赤坂2-18-19","private_room":"なし（こじんまりとした隠れ家、一人でも入りやすい）","quiet_business":"ハンバーガー百名店、静かで一人利用向き。会食には不向き","price_actual":"看板バーガー（ブロッコリーチーズ）¥1,300、ダブルチーズ¥2,156"},{"name":"バグース","area":"赤坂見附","walk":4,"genre":"BBQ・宴会","desc":"最低保証20万で店内貸し切り可能。6,000円/人なら34人で満たせる中規模チームビルに好適。飲み放題+500円、ダーツ投げ放題+500円のオプションも。","price":"¥5,000〜6,000","tags":["貸切","宴会"],"id":3,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13026941/","tabelog_score":3.16,"tabelog_reviews":81,"gmap_url":"https://www.google.com/maps/search/?api=1&query=バネバグース+赤坂見附店","private_room":"あり（VIPテラス付き個室あり）","quiet_business":"アミューズメント施設併設、テラスは2〜80名・貸切は最大120名対応。宴会向き","price_actual":"VIP個室BBQコース7品+飲み放題¥6,600、テラスBBQ¥5,500〜"},{"name":"赤坂 鮨葵","area":"赤坂","walk":4,"genre":"寿司","desc":"銀座久兵衛で15年修行した大将が握る本格江戸前鮨。¥9,800のおまかせは1万円以下とは思えない満足感。個室あり。","price":"¥9,800（おまかせ）","tags":["個室","接待"],"id":4,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13207593/","tabelog_score":3.47,"tabelog_reviews":443,"gmap_url":"https://www.google.com/maps/search/?api=1&query=赤坂+鮨葵+東京都港区赤坂","private_room":"あり（カウンター＋個室、店内は広め）","quiet_business":"銀座久兵衛出身の大将、個室ありで接待・会食向き","price_actual":"¥8,000〜9,999（おまかせ¥9,800）"},{"name":"tomboy 赤坂","area":"赤坂","walk":4,"genre":"その他","desc":"","price":"-","tags":[],"id":5,"genreGroup":"その他","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13215685/","tabelog_score":3.42,"gmap_url":"https://www.google.com/maps/search/?api=1&query=TOMBOY+赤坂店","private_room":"不明（全天候型テラス席あり、グループ利用向き）","quiet_business":"アジアンダイニングバー、40名以上コース予約プランありで宴会向き","price_actual":"情報なし"},{"name":"Big Iowa BBQ","area":"赤坂","walk":4,"genre":"BBQ・宴会","desc":"テキサスBBQ。","price":"-","tags":["BBQ"],"id":6,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13260677/","gmap_url":"https://www.google.com/maps/search/?api=1&query=Big+Iowa+BBQ+六本木","private_room":"不明（テラス席あり、六本木一丁目駅・麻布十番駅からアクセス可）","quiet_business":"アメリカンBBQ、カジュアルでにぎやか。会食向きではない","price_actual":"情報なし（プルドポークサンド・リブ等）"},{"name":"焼肉 あかべこ家","area":"赤坂/六本木","walk":4,"genre":"焼肉・焼鳥","desc":"北海道移住後も並ぶ店がないと言われるほどの実力店。脂っこくないのが特徴。","price":"-","link":"https://tabelog.com/tokyo/A1307/A130702/13222131/dtlmap/","tags":["焼肉"],"id":7,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13318925/","tabelog_score":3.13,"gmap_url":"https://www.google.com/maps/search/?api=1&query=あかべこ家+六本木一丁目","private_room":"不明（2026年2月に移転、半地下の店舗）","quiet_business":"飯倉片町の交差点そば、目立たない焼肉店。カジュアル利用向き","price_actual":"情報なし"},{"name":"赤坂 焼き鳥「鳳」","area":"赤坂","walk":4,"genre":"焼肉・焼鳥","desc":"","price":"-","tags":["焼き鳥"],"id":8,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13155259/","tabelog_score":3.53,"gmap_url":"https://www.google.com/maps/search/?api=1&query=赤坂焼鳥+鳳+赤坂","private_room":"あり（檜のカウンターや掘りごたつ個室）","quiet_business":"上質な和空間、掘りごたつ個室で会食・接待向き","price_actual":"夜¥8,000〜9,999"},{"name":"とんかつ檍","area":"赤坂/銀座/日本橋","walk":4,"genre":"とんかつ","desc":"複数展開のとんかつ店。新店舗の東銀座店は空いていて絶品のとんかつがゆったり味わえる。ご飯・キャベツおかわり自由。","price":"-","tags":["とんかつ","おかわり自由"],"id":9,"genreGroup":"とんかつ","tabelog_score":3.5,"gmap_url":"https://www.google.com/maps/search/?api=1&query=とんかつ檍+赤坂店+赤坂サンビルB1F","private_room":"不明","quiet_business":"百名店系列、赤坂駅出口2徒歩1分。カジュアル利用向き","price_actual":"昼総合評価3.5、価格情報詳細なし"},{"name":"まるしげ 夢葉家","area":"赤坂","walk":4,"genre":"居酒屋","desc":"驚くほど安い高コスパ居酒屋。酒のラインナップも充実し常連に愛される。","price":"高コスパ","tags":["居酒屋","コスパ"],"id":10,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13000192/","gmap_url":"https://www.google.com/maps/search/?api=1&query=まるしげ夢葉家+赤坂2-14-8","private_room":"あり（個室あり・喫煙可）","quiet_business":"広めの店内でテーブル席多数、早い時間から満席になりがちな賑やかな居酒屋","price_actual":"情報なし（焼酎・日本酒40種以上）"},{"name":"赤坂ちょろん","area":"赤坂","walk":4,"genre":"居酒屋","desc":"ほぼ年中無休、予約取りやすく安くて美味い名居酒屋。湯葉しゅうまいは必食。だいぶ飲んで1人¥6,000台。","price":"¥6,000台","tags":["居酒屋","コスパ","大人数"],"id":11,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13218108/","tabelog_score":3.28,"tabelog_reviews":49,"gmap_url":"https://www.google.com/maps/search/?api=1&query=赤坂ちょろん+乃木坂","private_room":"最大16名まで店内貸切可能（個室というより貸切対応）","quiet_business":"アットホームな空間、小規模宴会にも対応","price_actual":"夜¥5,000〜5,999"},{"name":"とりの炭家","area":"赤坂","walk":4,"genre":"焼肉・焼鳥","desc":"赤坂で¥5,000/名以下の焼き鳥専門店。熊本地鶏「天草大王」使用。予約取りやすく会食・社内飲みに最適。","price":"¥5,000以下","tags":["焼き鳥","会食向き"],"id":12,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13239616/","tabelog_score":3.52,"tabelog_reviews":117,"gmap_url":"https://www.google.com/maps/search/?api=1&query=とりの炭家+赤坂","private_room":"情報なし（赤坂駅徒歩1分）","quiet_business":"神楽坂・銀座の名店出身の店主、個室情報は未確認","price_actual":"コース¥5,500"},{"name":"本場ベトナム料理 ロータスパレス赤坂","area":"赤坂","walk":4,"genre":"アジア各国料理","desc":"","price":"-","addr":"赤坂2-13-1 ルーセント赤坂2F","tags":["ベトナム料理"],"id":13,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13195721/","tabelog_score":3.41,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ロータスパレス赤坂店+赤坂2-13-1","private_room":"貸切宴会対応可（個室ではなくテラス席・貸切）","quiet_business":"非日常的な雰囲気、女子会・デート・貸切宴会向き","price_actual":"夜¥4,000〜4,999"},{"name":"ラーメン なかご 赤坂","area":"赤坂","walk":4,"genre":"ラーメン","desc":"","price":"-","addr":"赤坂3-16-3 伊勢幸ビル1F","tags":["ラーメン"],"id":14,"genreGroup":"ラーメン・麺","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13224057/","tabelog_score":3.65,"gmap_url":"https://www.google.com/maps/search/?api=1&query=なかご+赤坂3-16-3","private_room":"不明","quiet_business":"清湯豚骨の人気ラーメン店、少人数・一人向き","price_actual":"純粋豚そば¥1,350前後"},{"name":"Sake bar Chill Labo Akasaka チルラボ","area":"赤坂","walk":4,"genre":"バー・酒場","desc":"","price":"-","tags":["バー"],"id":15,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13261005/","tabelog_score":3.24,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Chill+Labo+Akasaka+東京都港区赤坂4-3-27","private_room":"なし（古民家2階の小さなバー、カウンター中心）","quiet_business":"静か・隠れ家的、少人数向き。会食よりは日本酒好きの一人〜少人数利用向き","price_actual":"飲み比べ放題¥3,300/時間〜、単品¥700〜"},{"name":"やさい村大地 赤坂本店","area":"赤坂見附","walk":4,"genre":"韓国料理","desc":"野菜とおかずが食べ放題。ヘルシーなサムギョプサルが楽しめる。","price":"-","tags":["食べ放題","ヘルシー"],"id":16,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13041252/","tabelog_score":3.49,"tabelog_reviews":596,"gmap_url":"https://www.google.com/maps/search/?api=1&query=やさい村大地+赤坂本店+東京都港区赤坂","private_room":"なし（掘り炬燵席あり、大人数の宴会向き）","quiet_business":"賑やか・宴会向き、会食には不向き","price_actual":"¥4,000〜4,999"},{"name":"ハモニ食堂","area":"赤坂","walk":4,"genre":"韓国料理","desc":"食通の韓国人が「本場の味」と大絶賛。24時間営業。コースは1人¥5,000。韓国料理激戦区・赤坂で光る一軒。","price":"¥5,000（コース）","tags":["韓国料理","24時間"],"id":17,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13258522/","tabelog_score":3.47,"tabelog_reviews":359,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ハモニ食堂+赤坂+東京都港区赤坂3-11-14","private_room":"情報なし（広いテーブル席中心）","quiet_business":"24時間営業でカジュアル、会食向きというより気軽な利用向き","price_actual":"コース¥5,000/人、ユッケジャン¥1,200前後"},{"name":"金樹","area":"赤坂/中目黒","walk":4,"genre":"焼肉・焼鳥","desc":"一流店の大将も「焼肉なら金樹」と豪語。¥7,700/名程度、深夜営業あり。この価格でこの肉質はホラー級。","price":"¥7,700/名","tags":["焼肉","日常使い"],"id":18,"genreGroup":"焼肉・焼鳥","gmap_url":"https://www.google.com/maps/search/?api=1&query=焼肉ホルモン金樹+東京都港区赤坂2-13-17","private_room":"本店は不明。姉妹店「金樹 はなれ」「金樹 別館」は個室あり","quiet_business":"本店は個室情報なし。個室希望なら系列店を推奨","price_actual":"¥7,700/名程度、予約は2ヶ月待ちの声あり"},{"name":"赤坂にあるタイ料理ランチビュッフェ","area":"赤坂","walk":4,"genre":"アジア各国料理","desc":"","price":"-","link":"https://tabelog.com/tokyo/A1308/A130802/13271757/","tags":["タイ料理","ビュッフェ"],"id":19,"genreGroup":"アジア各国","private_room":"不明","quiet_business":"不明","price_actual":"不明（元データが店舗名ではなくカテゴリ表現のため特定不可）"},{"name":"赤坂ネパール料理","area":"赤坂","walk":4,"genre":"アジア各国料理","desc":"スパイスの効いたカレーが好評。ランチも営業。","price":"-","tags":["ネパール料理"],"id":20,"genreGroup":"アジア各国","tabelog_score":3.3,"tabelog_reviews":47,"private_room":"不明","quiet_business":"不明","price_actual":"不明（元データが店舗名ではなくカテゴリ表現のため特定不可）"},{"name":"西洋菓子 しろたえ","area":"赤坂","walk":4,"genre":"カフェ・スイーツ","desc":"赤坂が誇るパーフェクトなチーズケーキ。レモンの華やかさがクリームチーズの甘みを引き立てる。¥300という価格も驚異的。","price":"¥300","tags":["スイーツ","コスパ"],"id":21,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13002850/","tabelog_score":3.79,"gmap_url":"https://www.google.com/maps/search/?api=1&query=西洋菓子しろたえ+赤坂見附","private_room":"なし（テイクアウト中心の洋菓子店）","quiet_business":"N/A（物販中心）","price_actual":"レアチーズケーキ¥300前後"},{"name":"赤坂 amorphous","area":"赤坂","walk":4,"genre":"居酒屋","desc":"「旨いもの屋」がコンセプト。和・洋・中の境目を飛び越えるアラカルト。カウンターの隠れ家で火〜日 17-24時営業。","price":"-","link":"https://tabelog.com/tokyo/A1308/A130801/13287402/","tags":["アラカルト","隠れ家"],"id":22,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13287402/","gmap_url":"https://www.google.com/maps/search/?api=1&query=赤坂amorphous+東京都港区赤坂","private_room":"不明","quiet_business":"カウンターの隠れ家、和洋中アラカルト。少人数の会食にも使える雰囲気","price_actual":"情報なし"},{"name":"分店なかむら食堂","area":"赤坂","walk":5,"genre":"居酒屋","desc":"居酒屋と食堂を両立。ミートグラタン・唐揚げが人気で洋風メニューも豊富。刺身・牡蠣フライなど和洋折衷。","price":"¥4,000〜5,000","addr":"赤坂6-15-1 ミツワビル1F","tel":"03-5575-0026","link":"https://tabelog.com/tokyo/A1308/A130801/13127232/","tags":["居酒屋","和洋折衷"],"id":23,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13127232/","tabelog_score":3.51,"tabelog_reviews":261,"gmap_url":"https://www.google.com/maps/search/?api=1&query=分店なかむら食堂+東京都港区赤坂6-15-1","private_room":"情報なし（木目調の落ち着いた食堂スタイル）","quiet_business":"落ち着いた雰囲気だが個室確証なし","price_actual":"¥4,000〜5,000/名"},{"name":"東京餃子","area":"赤坂サクラサカス","walk":4,"genre":"中華","desc":"注文後に焼くパリパリ餃子。点心・中華一品料理・酒も充実。通し営業で15時利用も会食も可。","price":"-","tags":["餃子","通し営業"],"id":24,"genreGroup":"中華","gmap_url":"https://www.google.com/maps/search/?api=1&query=東京餃子+赤坂サクラサカス+東京都港区赤坂3-10-4","gmap_score":4.17,"gmap_reviews":3,"private_room":"個室情報なし（明るく活気のある店内）","quiet_business":"落ち着いた雰囲気だが個室確証なし","price_actual":"情報なし"},{"name":"赤坂見附に進出したバーボン","area":"赤坂見附","walk":7,"genre":"バー・酒場","desc":"上大岡から進出したバーの新店舗。マスターとの会話を楽しめる隠れ家バー。","price":"-","tags":["バー"],"id":25,"genreGroup":"居酒屋・バー","private_room":"不明","quiet_business":"不明","price_actual":"不明（店舗を特定できず）"},{"name":"すし晴","area":"赤坂見附","walk":7,"genre":"寿司","desc":"隠れ家的鮨屋で日曜営業・予約が取れる有難い店。まつうらと同系列で修行した大将。20回以上通っても予約が取れる謎の名店。","price":"¥38,000/名","tags":["寿司","隠れ家","高級"],"id":26,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1308/A130801/13223828/","tabelog_score":3.61,"gmap_url":"https://www.google.com/maps/search/?api=1&query=すし晴+東京都港区赤坂4-11-6","private_room":"不明（赤坂見附エリアには個室あり寿司店が多いが、すし晴自体の明記なし）","quiet_business":"住宅街の隠れ家寿司店、カウンター中心","price_actual":"¥38,000/名"},{"name":"富麗華の地階駐車場","area":"麻布十番","walk":10,"genre":"その他","desc":"麻布十番祭りの裏ワザ。中国飯店 富麗華の地階駐車場が祭り期間中開放され、テタンジェが一杯千円、冷房も効いている。","price":"テタンジェ¥1,000/杯","tags":["祭り限定","裏ワザ"],"id":27,"genreGroup":"その他","private_room":"N/A","quiet_business":"N/A: 祭り限定企画","price_actual":"N/A: 祭り限定企画"},{"name":"炭火焼き鳥どげん 六本木店","area":"麻布台","walk":10,"genre":"焼肉・焼鳥","desc":"麻布台ヒルズ目の前。炭火の串が1本100円台から。1人¥3,000〜4,000で収まる、いまの麻布台では貴重な価格。","price":"¥3,000〜4,000","addr":"麻布台3-4-14 麻布台マンション101","tel":"03-3589-0385","tags":["焼き鳥","コスパ"],"id":28,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13058337/","gmap_url":"https://www.google.com/maps/search/?api=1&query=炭火焼き鳥どげん六本木店+東京都港区麻布台3-4-14","gmap_score":3.53,"gmap_reviews":10,"private_room":"個室の明確な記載なし","quiet_business":"カジュアルな居酒屋、会食向きの個室要素は確認できず","price_actual":"1本100円台〜、レバー1本¥80、1人¥3,000〜4,000"},{"name":"Tearoom by 蒼菓","area":"麻布台ヒルズ","walk":10,"genre":"カフェ・スイーツ","desc":"食べログフレンチ日本1位「蒼」×富士山カヌレのAtiromのスイーツブランド。看板はシュークリーム。カスタード¥648〜限定ショコラ¥1,080。","price":"¥648〜1,080","addr":"麻布台ヒルズ ガーデンプラザC B1","tags":["スイーツ","話題店"],"id":29,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13314680/","tabelog_score":3.44,"tabelog_reviews":74,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Tearoom+by+蒼菓+麻布台ヒルズ","private_room":"4席限定の予約制ティーサロン併設（個室ではないが少席の特別空間）","quiet_business":"話題のスイーツブランド、ティーサロンは静かで少人数向き","price_actual":"カスタード¥648〜限定ショコラ¥1,080"},{"name":"青山一丁目 焼鳥たぬき","area":"青山","walk":15,"genre":"焼肉・焼鳥","desc":"人気居酒屋の新業態。創作一品料理・串の種類も豊富。ふらっと行ける満足度の高さ。","price":"-","tags":["焼き鳥","ふらっと"],"id":30,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1306/A130603/13321400/","tabelog_score":3.16,"tabelog_reviews":36,"gmap_url":"https://www.google.com/maps/search/?api=1&query=焼鳥たぬき+東京都港区南青山1-3-6","private_room":"個室情報の明確な記載なし","quiet_business":"大衆酒場スタイル、会食向きというよりカジュアル飲み向き","price_actual":"情報なし"},{"name":"六本木グランドハイアット チャイナルーム","area":"六本木","walk":18,"genre":"中華","desc":"平日ランチは21品から1時間半食べ放題。1口皿提供で沢山食べられる。中国銘茶も飲み放題で約¥7,000。落ち着いた穴場。","price":"¥7,000前後","tags":["食べ放題","ランチ"],"id":31,"genreGroup":"中華","gmap_url":"https://www.google.com/maps/search/?api=1&query=チャイナルーム+グランドハイアット東京+六本木","private_room":"あり（ラウンジ付き個室、記念日・結納向けコースあり）","quiet_business":"個室利用時は静かで会食・接待に最適","price_actual":"ランチ飲茶ビュッフェ約¥6,600"},{"name":"六本木 笑壺","area":"六本木","walk":18,"genre":"定食・和食","desc":"港区屈指のコスパランチ。旅館の朝食のような定食で、はまちカマ焼き・刺身も美味。ご飯おかわり自由。アークヒルズサウスタワー下。","price":"コスパ良好","tags":["定食","ランチ","コスパ"],"id":32,"genreGroup":"定食・和食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13164529/","tabelog_score":3.5,"gmap_url":"https://www.google.com/maps/search/?api=1&query=笑壺+港区六本木","private_room":"情報なし（アークヒルズサウスタワーB1Fの小規模食堂）","quiet_business":"行列必至の人気ランチ店。会食向きではなく一人〜少人数の日常使い","price_actual":"笑壺定食 ¥1,100〜1,500（ランチのみ）"},{"name":"グランドハイアット東京 けやき坂","area":"六本木","walk":18,"genre":"鉄板焼き","desc":"平日限定ランチコースが47%オフ。目の前で焼く鉄板焼きのライブ感が醍醐味。","price":"平日ランチ47%OFF","tags":["鉄板焼き","ランチ"],"id":33,"genreGroup":"フレンチ・洋食","gmap_url":"https://www.google.com/maps/search/?api=1&query=けやき坂+グランドハイアット東京","private_room":"あり（公式に個室ページあり、接待・記念日向け）","quiet_business":"ホテル内、雰囲気・サービス良好。接待向き","price_actual":"要問い合わせ、平日ランチ47%オフあり"},{"name":"鳥料理 六本木の地土里（チドリ）","area":"六本木","walk":18,"genre":"焼肉・焼鳥","desc":"西麻布の鳥さわ鍋屋の元店主が独立した新店。焼鳥・鳥鍋が主軸、蒸し物や揚げ物も。焼鳥は追加注文可。","price":"-","tags":["焼き鳥","新店"],"id":34,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13303122/","tabelog_score":3.86,"tabelog_reviews":81,"gmap_url":"https://www.google.com/maps/search/?api=1&query=地土里+港区六本木","private_room":"なし（カウンター8席のみ）","quiet_business":"落ち着いた空間だが個室なし。少人数向き会食向き","price_actual":"おまかせコース ¥13,200/名"},{"name":"ラトリエ ドゥ ジョエル・ロブション","area":"六本木","walk":18,"genre":"フレンチ","desc":"アミューズ、前菜2品、主菜、デザート＋カフェで¥10,000。華やかな店内、盛付・サービスも高水準。","price":"¥10,000（コース）","tags":["フレンチ","高品質"],"id":35,"genreGroup":"フレンチ・洋食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13005334/","tabelog_score":3.8,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ラトリエドゥジョエルロブション+六本木","private_room":"基本カウンター中心、テーブル希望は要相談","quiet_business":"カジュアルながら会話しやすいカウンター。フォーマルな個室会食には非向き","price_actual":"夜 ¥20,000〜29,999/名"},{"name":"La couleur d'ete","area":"六本木/乃木坂","walk":18,"genre":"フレンチ","desc":"ラシカルフレンチ。ランチコース¥5,900の完成度が驚異的。4名以上の予約で貸切可能、会食利用に最適。","price":"¥5,900（ランチ）","tags":["フレンチ","貸切可"],"id":36,"genreGroup":"フレンチ・洋食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13284810/","tabelog_score":3.7,"tabelog_reviews":70,"gmap_url":"https://www.google.com/maps/search/?api=1&query=La+couleur+d'ete+乃木坂","private_room":"4名以上予約で貸切可能（実質個室的運用）","quiet_business":"路地裏の邸宅風、記念日向けで静か。4名以上で貸切可、会食に最適","price_actual":"夜 ¥20,000〜29,999/名、ランチコース¥5,900"},{"name":"六本木『かき心』","area":"六本木","walk":18,"genre":"海鮮","desc":"大粒の生牡蠣は甘くクリーミー。濃厚グラタン風の焼き牡蠣、衣サクサクのカキフライも絶品。","price":"-","tags":["牡蠣","海鮮"],"id":37,"genreGroup":"海鮮","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13196031/","tabelog_score":3.39,"tabelog_reviews":142,"gmap_url":"https://www.google.com/maps/search/?api=1&query=かき心+六本木","private_room":"あり（6名まで完全個室完備）","quiet_business":"接待利用も多い。個室ありで会食向き","price_actual":"コース制、深夜4:00まで営業"},{"name":"ニクアザブ 六本木店","area":"六本木","walk":18,"genre":"焼肉・焼鳥","desc":"","price":"-","tags":["焼肉"],"id":38,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13191031/","tabelog_score":3.35,"tabelog_reviews":380,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ニクアザブ+六本木店","private_room":"情報なし（カジュアルな焼肉バル）","quiet_business":"カジュアルでにぎやか、会食よりは飲み会・デート向き","price_actual":"夜 ¥5,000〜5,999/名"},{"name":"モティ","area":"六本木","walk":18,"genre":"アジア各国料理","desc":"1978年赤坂見附創業、現在は六本木の老舗インド料理店。客の7割がバターチキンを注文する名物メニュー。","price":"-","tags":["インド料理","老舗"],"id":39,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13001979/","tabelog_score":3.48,"tabelog_reviews":391,"gmap_url":"https://www.google.com/maps/search/?api=1&query=モティ+六本木店","private_room":"情報なし","quiet_business":"老舗で芸能人利用も多いが個室記載なし","price_actual":"ランチ ¥1,000〜（エビカレー等）"},{"name":"BIANCHI","area":"六本木","walk":18,"genre":"アジア各国料理","desc":"日本料理出身の店主が始めたタイ料理店。ガイヤーンは黒さつま鶏を数日マリネし低温調理、日本料理の火入れ技法を応用。","price":"¥6,000〜8,000","tags":["タイ料理"],"id":40,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13301838/","tabelog_score":3.67,"gmap_url":"https://www.google.com/maps/search/?api=1&query=BIANCHI+六本木+タイ料理","private_room":"個室ありの可能性（未確定）","quiet_business":"裏路地の高級感ある店。デートや軽い会食向き","price_actual":"¥1,200〜2,000程度/品"},{"name":"OXOMOCO","area":"六本木ヒルズ","walk":18,"genre":"洋食・その他","desc":"NYブルックリンでミシュラン星を獲得したモダンメキシカンが広尾から移転。ウエストウォーク1階、金土は深夜2時まで営業。","price":"-","tags":["モダンメキシカン","話題店"],"id":41,"genreGroup":"フレンチ・洋食","tabelog_url":"https://s.tabelog.com/tokyo/A1307/A130701/13320594/","tabelog_score":3.08,"tabelog_reviews":25,"gmap_url":"https://www.google.com/maps/search/?api=1&query=OXOMOCO+六本木ヒルズ","private_room":"情報なし（貸切・団体相談は可）","quiet_business":"オープンな雰囲気のカジュアルレストラン","price_actual":"情報なし"},{"name":"深川製磁カフェ","area":"東京ミッドタウン","walk":18,"genre":"カフェ・スイーツ","desc":"ミッドタウンの穴場カフェ。週末も意外とすっと入れる。国立新美術館帰りやお買い物休憩に。","price":"-","tags":["カフェ","穴場"],"id":42,"genreGroup":"カフェ・スイーツ","gmap_url":"https://www.google.com/maps/search/?api=1&query=深川製磁+FUKAGAWA+SEIJI+東京ミッドタウン","gmap_score":4.01,"private_room":"なし（カウンター＋ソファ席、店内10席の小規模カフェ）","quiet_business":"ミッドタウン内だが空いていて入りやすい。静かでゆったり","price_actual":"情報なし（ティー＋スイーツのセット中心）"},{"name":"六本木 焼鶏 輪","area":"六本木","walk":2,"genre":"焼肉・焼鳥","desc":"ミッドタウン徒歩2分の裏道にある静かな隠れ家焼鶏屋。個室利用可能。輪コース¥4,600、お任せコース¥6,500。","price":"¥4,600〜6,500","addr":"六本木4-5-14 アーバンビル1F","tel":"03-6447-0905","link":"https://tabelog.com/tokyo/A1307/A130701/13221953/","tags":["焼き鳥","個室"],"walkNote":"六本木駅から","id":43,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13221953/","gmap_url":"https://www.google.com/maps/search/?api=1&query=六本木焼鶏輪+東京都港区六本木4-5-14","private_room":"あり（個室利用可能）","quiet_business":"裏道の隠れ家焼鶏屋、個室で会食向き","price_actual":"輪コース¥4,600、お任せコース¥6,500"},{"name":"しゃぶしゃぶ 温野菜 六本木店","area":"六本木","walk":1,"genre":"しゃぶしゃぶ","desc":"六本木駅徒歩1分のしゃぶしゃぶ・ビュッフェ店。","price":"-","addr":"六本木7-13-6 コンドウビル2・3F","tel":"03-5775-5081","link":"https://tabelog.com/tokyo/A1307/A130701/13109022/","tags":["しゃぶしゃぶ","ビュッフェ"],"walkNote":"六本木駅から","id":44,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13109022/","tabelog_score":3.04,"gmap_url":"https://www.google.com/maps/search/?api=1&query=しゃぶしゃぶ温野菜+六本木店","private_room":"不明（チェーン店、テーブル席中心）","quiet_business":"カジュアルなチェーン店、会食向きというより一般利用向き","price_actual":"情報なし"},{"name":"鮨 末吉","area":"六本木","walk":18,"genre":"寿司","desc":"2026年7月オープン。国産生本まぐろ希少部位食べ比べや漁師直送地魚の江戸前鮨をリーズナブルに。","price":"-","tags":["寿司","新店","コスパ"],"id":45,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13324482/","tabelog_score":3.02,"gmap_url":"https://www.google.com/maps/search/?api=1&query=鮨末吉+六本木","private_room":"不明（2026年7月新規オープン）","quiet_business":"六本木駅徒歩8歩、豊洲『まぐろは大善』の本まぐろ使用。普段使い・デート向き","price_actual":"おまかせ鮨¥8,800、飲み放題付きコース¥11,000"},{"name":"bird酉男man","area":"六本木/乃木坂","walk":18,"genre":"焼肉・焼鳥","desc":"看板なしの隠れ家鶏料理専門店。宮崎のプレミアム地鶏「妻地鶏」の「もも焼き」が名物。路地裏一軒家で個室あり。","price":"¥5,000〜6,000","addr":"六本木7-5-7","tel":"03-6804-2442","link":"https://tabelog.com/tokyo/A1307/A130701/13162946/","tags":["焼き鳥","隠れ家","個室"],"id":46,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13162946/","tabelog_score":3.49,"tabelog_reviews":62,"gmap_url":"https://www.google.com/maps/search/?api=1&query=bird酉男man+六本木","private_room":"あり（個室・貸切対応、最大30名まで対応可能な大部屋あり）","quiet_business":"六本木裏路地の隠れ家、個室完備で接待・飲み会にも対応","price_actual":"¥5,000〜6,000、3時間飲放付女子会プランあり"},{"name":"水づき","area":"白金","walk":20,"genre":"焼肉・焼鳥","desc":"岐阜の人気焼鳥店から2024年移転。岐阜トップ店を12年運営した店主が淡海地鶏を紀州備長炭で焼く。カウンター9席、食べログ約4.11。","price":"¥13,200（おまかせ）","addr":"白金6-23-2 白金宏和マンション1F","tags":["焼き鳥","名店","高評価"],"id":47,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1316/A131602/13303865/","tabelog_score":4.11,"gmap_url":"https://www.google.com/maps/search/?api=1&query=水づき+東京都港区白金6-23-2","private_room":"なし。カウンター9席のみ（席間は広め）","quiet_business":"岐阜の名店移転、カウンター割烹で会食向き。鳥料理百名店2025選出","price_actual":"夜¥15,000〜19,999、水木休"},{"name":"麻布苑","area":"麻布十番","walk":20,"genre":"焼肉・焼鳥","desc":"2026年8月オープンの町焼肉。赤坂「焼肉 思食」の姉妹店で芝浦の名門ホルモン卸から仕入れ。町焼肉価格なのに仕入れの格が高い。","price":"¥8,000〜10,000","addr":"麻布十番2-1-10 AZABU YOUビル2F","tags":["焼肉","新店"],"walkNote":"麻布十番駅から徒歩1分","id":48,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13325526/","tabelog_score":3.11,"tabelog_reviews":28,"gmap_url":"https://www.google.com/maps/search/?api=1&query=麻布苑+東京都港区麻布十番2-1-10","private_room":"不明","quiet_business":"町焼肉、高級店「思食」系列という口コミあり","price_actual":"¥8,000〜9,999"},{"name":"ナニワヤ@麻布十番のローストビーフ","area":"麻布十番","walk":20,"genre":"洋食・その他","desc":"「食べると不幸になる」と有名なスーパーのローストビーフ。1万円超の肉より美味いと言われるコスパ。クリスマスにも。","price":"驚異のコスパ","tags":["ローストビーフ","コスパ"],"id":49,"genreGroup":"フレンチ・洋食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13061339/","gmap_url":"https://www.google.com/maps/search/?api=1&query=スーパーナニワヤ+東京都港区麻布十番","private_room":"なし（スーパー・惣菜店であり飲食店ではない）","quiet_business":"対象外（テイクアウト専門のスーパー、会食向きではない）","price_actual":"ローストビーフ100g/約¥1,000前後"},{"name":"ひつじ比内地鶏 けやき坂","area":"麻布十番","walk":20,"genre":"焼肉・焼鳥","desc":"","price":"-","tags":["地鶏"],"id":50,"genreGroup":"焼肉・焼鳥","gmap_url":"https://www.google.com/maps/search/?api=1&query=ひつじ比内地鶏+けやき坂+麻布十番","private_room":"不明","quiet_business":"不明","price_actual":"情報なし"},{"name":"麻布十番「ミラノドルチェ トレ・スパーデ」","area":"麻布十番","walk":20,"genre":"カフェ・スイーツ","desc":"イタリア修行のシェフが作るプリン。一口目は固め、食べ進むとクリーミーに変化。ホールサイズの巨大プリンもある。","price":"-","tags":["スイーツ","プリン"],"id":51,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13186012/","gmap_url":"https://www.google.com/maps/search/?api=1&query=ミラノドルチェ+トレスパーデ+麻布十番","private_room":"なし（テイクアウト中心の小さな店）","quiet_business":"テイクアウト・お土産中心、会食向きではない","price_actual":"情報なし"},{"name":"麻布台ヒルズの「鮨麻布」","area":"麻布台ヒルズ","walk":20,"genre":"寿司","desc":"回らないお鮨デビューに最適。刺身や白子天ぷらから中トロ・小肌など握り10貫、雲丹ご飯まで。コスパ抜群でスタイリッシュなカウンター。","price":"コスパ良好","tags":["寿司","初心者向き"],"id":52,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13291176/","tabelog_score":3.5,"tabelog_reviews":311,"gmap_url":"https://www.google.com/maps/search/?api=1&query=鮨麻布+麻布台ヒルズ","private_room":"不明（NY・マイアミで1つ星獲得の「AZABU」本店、伝統と現代融合の空間）","quiet_business":"コスパ良好、カウンター中心。ランチ¥5,000〜6,000／ディナー¥10,000〜15,000","price_actual":"夜¥10,000〜14,999"},{"name":"鮨あんじょう","area":"西麻布","walk":20,"genre":"寿司","desc":"夫婦経営の雰囲気の良い鮨屋。¥15,000のコースで2人¥36,000あたり。","price":"¥15,000/名","addr":"西麻布4-11-29 西麻布ヒルズ1F","tags":["寿司","夫婦経営"],"id":53,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13094771/","tabelog_score":4.25,"gmap_url":"https://www.google.com/maps/search/?api=1&query=鮨あんじょう+東京都港区西麻布4-11-29","private_room":"不明","quiet_business":"隠れ家的で落ち着いた雰囲気、大将・女将との会話が魅力。会食向き","price_actual":"夜¥15,000〜19,999"},{"name":"豚組","area":"西麻布","walk":20,"genre":"とんかつ","desc":"","price":"-","tags":["とんかつ"],"id":54,"genreGroup":"とんかつ","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13004791/","tabelog_score":3.66,"tabelog_reviews":892,"gmap_url":"https://www.google.com/maps/search/?api=1&query=西麻布豚組+東京都港区","private_room":"不明","quiet_business":"昭和の一軒家をアンティーク改装、とんかつ百名店2026選出、行列必至","price_actual":"テイクアウト弁当ロース¥2,000／ヒレ¥2,100、店内¥2,000〜5,000"},{"name":"yaocho-bar","area":"西麻布","walk":20,"genre":"バー・酒場","desc":"","price":"-","addr":"西麻布1-4-41 麻布ファーストビル1F","tags":["バー"],"id":55,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13094771/","tabelog_score":3.15,"tabelog_reviews":33,"gmap_url":"https://www.google.com/maps/search/?api=1&query=yaocho-bar+東京都港区西麻布1-4-41","private_room":"貸切可（15名〜、BBQは応相談。個室ではなく店内貸切）","quiet_business":"手ぶらBBQバー、団体・パーティ向き。会食向きというより宴会向き","price_actual":"チャージ¥500＋持込/BBQ相談"},{"name":"うしのみや東京","area":"東麻布","walk":20,"genre":"焼肉・焼鳥","desc":"牛肉コースは通常後半に胃が重くなるが、ここは逆。タルタルからシャトーブリアンまで進むほど解像度が上がる。なかにしプレミアスペシャル和牛使用。","price":"-","tags":["和牛","コース"],"id":56,"genreGroup":"焼肉・焼鳥","tabelog_score":4.26,"tabelog_reviews":11,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Beef+Atelier+うしのみや東京+東麻布1-9-16","private_room":"貸切対応可（別途貸切料、基本はカウンター中心）","quiet_business":"東麻布の静かな一角、黒基調の隠れ家的空間。接待・会食利用あり","price_actual":"夜¥30,000〜/名"},{"name":"おうどんHOUSE","area":"麻布十番","walk":20,"genre":"うどん","desc":"コンクリート打ちっぱなしの路地裏うどん屋。10席のみ、土日ランチ3時間だけの完全予約制。店主はミスコングランプリ→香川で本格修行の異色の経歴。","price":"-","tags":["うどん","予約制","隠れ家"],"id":57,"genreGroup":"ラーメン・麺","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13315593/","tabelog_score":3.11,"tabelog_reviews":45,"gmap_url":"https://www.google.com/maps/search/?api=1&query=おうどんHOUSE+東京都港区麻布十番2-7-11","private_room":"不明（10席のみの小規模店）","quiet_business":"完全予約制・土日ランチのみで静かだが、一人〜少人数向き","price_actual":"¥1,000〜1,999"},{"name":"MOMO Stand Tokyo","area":"広尾","walk":20,"genre":"アジア各国料理","desc":"過小評価されがちなネパール料理。7種モモコース¥3,800。柚子ポン酢×ネパール山椒の融合が新鮮。","price":"¥3,800","addr":"渋谷区広尾5-18-8 1F","tags":["ネパール料理","コース"],"id":58,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1307/A130703/13288199/","tabelog_score":3.55,"tabelog_reviews":100,"gmap_url":"https://www.google.com/maps/search/?api=1&query=MOMO+Stand+Tokyo+東京都渋谷区広尾5-18-8","private_room":"なし。全席カウンター（席間隔が狭いとの指摘あり）","quiet_business":"ソムリエ在籍、モモ×ワインペアリング。食べログ百名店選出だがカジュアル・小規模","price_actual":"7種モモコース¥3,800"},{"name":"ブルーパパイアタイランド 麻布十番店","area":"麻布十番","walk":20,"genre":"アジア各国料理","desc":"タイ国政府認定のカジュアルレストラン。ランチ¥1,200でメイン1品＋サラダ・スープ・お茶・デザートおかわり自由。","price":"¥1,200（ランチ）","addr":"麻布十番1-5-10 アトラスビル1F-A","tel":"03-5413-4710","tags":["タイ料理","ランチ"],"id":59,"genreGroup":"アジア各国","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13176221/","tabelog_score":3.42,"tabelog_reviews":155,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ブルーパパイアタイランド麻布十番店+東京都港区麻布十番1-5-10","gmap_score":3.9,"gmap_reviews":26,"private_room":"あり。4名/6名/8名/10〜20名用の個室・半個室バリエーション豊富、全36席","quiet_business":"タイ国政府認定レストラン、個室ありで会食にも使える。禁煙","price_actual":"ランチ¥1,800（食べ放題付き）、単品¥700〜2,300／コース¥3,500〜5,000"},{"name":"麻布十番 米ル","area":"麻布十番","walk":1,"genre":"定食・和食","desc":"お米を主役にした隠れ家和食。5種の自家精米米を土鍋で。おまかせ全17品一択。個室3部屋（4名×2・2名×1）＋カウンター8席。看板・表札は一切なし。","price":"¥8,000〜10,000","addr":"麻布十番駅4番出口徒歩1分、田中ビル3F301","link":"https://tabelog.com/tokyo/A1307/A130702/13249737/","tags":["和食","個室","看板なし"],"walkNote":"麻布十番駅から","id":60,"genreGroup":"定食・和食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130702/13249737/","tabelog_score":3.41,"tabelog_reviews":161,"gmap_url":"https://www.google.com/maps/search/?api=1&query=麻布十番+米ル","private_room":"あり（4名個室×2＋2名個室×1の計3部屋、カウンター8席）","quiet_business":"看板なしの隠れ家、静かでデート・会食向き","price_actual":"¥8,000〜10,000"},{"name":"焼肉牛印 西麻布店","area":"西麻布","walk":20,"genre":"焼肉・焼鳥","desc":"2026年4月オープンの牛印最新店。週末限定シャトーブリアンステーキサンドランチ¥5,900が狙い目。個室あり。","price":"¥5,900（ランチ）","addr":"西麻布2-13-15","link":"https://tabelog.com/tokyo/A1307/A130701/13320765/","tags":["焼肉","新店","個室"],"id":61,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13320765/","gmap_url":"https://www.google.com/maps/search/?api=1&query=焼肉牛印+西麻布店+西麻布2-13-15","private_room":"あり（個室完備、系列店の標準仕様）","quiet_business":"2026年4月オープンの新店のため評価情報は少ない","price_actual":"週末限定シャトーブリアンステーキサンドランチ¥5,900"},{"name":"グルマンディーズ@広尾","area":"広尾","walk":26,"genre":"フレンチ","desc":"シェフは元サルコジ仏大統領の専属料理人。蟹のリゾットは人生最高評という声も。必訪。","price":"-","tags":["フレンチ","要予約級"],"id":62,"genreGroup":"フレンチ・洋食","tabelog_url":"https://tabelog.com/tokyo/A1307/A130701/13190448/","gmap_url":"https://www.google.com/maps/search/?api=1&query=グルマンディーズ+西麻布3-17-23","private_room":"不明（完全予約制、常連優先で新規予約困難）","quiet_business":"西麻布の静かな一角、完全予約制の隠れ家、食べログGOLD受賞","price_actual":"¥10,000前後"},{"name":"白金「GONZO」日本酒バー","area":"白金/三田","walk":28,"genre":"バー・酒場","desc":"","price":"-","addr":"三田5-21-7 1F","tags":["日本酒バー"],"id":63,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/tokyo/A1316/A131602/13098504/","tabelog_score":3.17,"gmap_url":"https://www.google.com/maps/search/?api=1&query=GONZO+日本酒バー+三田5-21-7","gmap_score":3.97,"gmap_reviews":12,"private_room":"不明（バー形式、個室情報なし。一人客NGの情報あり）","quiet_business":"白金高輪駅徒歩4分、日本酒の図書館のような落ち着いた空間","price_actual":"¥5,000〜5,999（飲み比べ3種¥1,000）"},{"name":"新橋「志布志 喜船」","area":"新橋","walk":28,"genre":"海鮮","desc":"水産会社直営で豊洲市場直送のマグロ海鮮が乗って¥1,700。ハムカツ数枚分の値段で竜宮城気分。","price":"¥1,700","tags":["海鮮","コスパ"],"id":64,"genreGroup":"海鮮","tabelog_url":"https://tabelog.com/tokyo/A1301/A130103/13095588/","gmap_url":"https://www.google.com/maps/search/?api=1&query=志布志+喜船+東京都港区新橋","private_room":"座敷あり（一番奥）、テーブル・カウンターも併設","quiet_business":"老舗リニューアル済み、落ち着いた雰囲気で会食にも使える座敷あり","price_actual":"ランチ¥1,000前後（海鮮丼・定食等）、ディナー¥5,000〜7,999"},{"name":"銀座 八芳","area":"新橋","walk":28,"genre":"ビュッフェ","desc":"平日限定150種食べ放題＋100分飲み放題で¥9,800。蟹・アワビ・帆立・牡蠣などの海鮮が特に美味。焼肉・中華・寿司もラインナップ豊富。","price":"¥9,800","tags":["ビュッフェ","海鮮","焼肉"],"id":65,"genreGroup":"居酒屋・バー","tabelog_url":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","tabelog_reviews":831,"gmap_url":"https://www.google.com/maps/search/?api=1&query=海鮮ブッフェダイニング+銀座八芳+東京都港区新橋","private_room":"あり（個室完備、宴会・接待向け）","quiet_business":"全400席、宴会・接待・記念日など多用途対応の格調高い雰囲気","price_actual":"ブッフェコース約¥9,800〜13,000（120分制、150種超）"},{"name":"新橋の鳥料理店「末げん」","area":"新橋","walk":28,"genre":"焼肉・焼鳥","desc":"三島由紀夫の常連店として有名。夜は¥15,000/人だがランチはリーズナブルで、かま定食¥1,400のとろとろ挽き肉親子丼が絶品。","price":"夜¥15,000／ランチ¥1,400〜","tags":["鳥料理","歴史","ランチ"],"id":66,"genreGroup":"焼肉・焼鳥","tabelog_url":"https://tabelog.com/tokyo/A1301/A130103/13002893/","tabelog_reviews":951,"gmap_url":"https://www.google.com/maps/search/?api=1&query=末げん+東京都港区新橋2-15-7","private_room":"座敷の個室が複数あり、約35席","quiet_business":"創業1909年の老舗割烹、三島由紀夫最後の晩餐の店として有名。会食・接待向き","price_actual":"ランチ限定親子丼（かま定食）安価、コース¥9,900〜19,000（夜）"},{"name":"虎ノ門ヒルズの「意気な寿し処阿部」","area":"虎ノ門","walk":28,"genre":"寿司","desc":"寿司食べ放題¥5,800。ネタは大きく普通に美味い。天ぷらなど一品料理も食べ放題でこの価格は嬉しい。","price":"¥5,800（食べ放題）","tags":["寿司","食べ放題"],"id":67,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1308/A130802/13169272/","tabelog_score":3.48,"gmap_url":"https://www.google.com/maps/search/?api=1&query=意気な寿し処阿部+虎ノ門ヒルズ店","private_room":"不明（虎ノ門ヒルズ森タワー4F、カジュアルな店舗形態）","quiet_business":"口コミにより差あり、食べ放題中心のカジュアル業態","price_actual":"寿司食べ放題¥5,800〜8,300（飲み放題付きプランあり）、カウンター板前おまかせ¥12,000"},{"name":"蘭苑飯店","area":"新橋","walk":28,"genre":"中華","desc":"烏森神社裏の路地にある真っ赤な看板の深夜町中華。バンバンジー・春巻き・トマト卵炒めが人気。深夜でも店内ぎゅうぎゅう。","price":"-","tags":["中華","深夜営業"],"id":68,"genreGroup":"中華","tabelog_url":"https://tabelog.com/tokyo/A1301/A130103/13022193/","gmap_url":"https://www.google.com/maps/search/?api=1&query=蘭苑飯店+烏森神社店+東京都港区新橋","private_room":"不明","quiet_business":"朝4時まで営業、常に賑やかで活気ある雰囲気。深夜の気軽な利用向き","price_actual":"情報なし（チャーハン・餃子・麻婆豆腐などアラカルト中心）"},{"name":"ソニア","area":"新橋","walk":28,"genre":"お好み焼き","desc":"新橋地下の広島お好み焼き。20年以上続く老舗で、全品に大葉入り、麺は特注細麺。ランチ¥1,000。ルールは「マヨネーズは半分食べてから」。","price":"¥1,000（ランチ）","tags":["お好み焼き","老舗"],"id":69,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1301/A130103/13023882/","tabelog_score":3.5,"tabelog_reviews":693,"gmap_url":"https://www.google.com/maps/search/?api=1&query=ソニア+お好み焼き+東京都港区新橋","private_room":"不明","quiet_business":"ランチは行列必至のカジュアル業態、会食向きではない","price_actual":"情報なし（お好み焼き単品中心、ランチ¥1,000）"},{"name":"Captain Kangaroo","area":"虎ノ門","walk":28,"genre":"バーガー","desc":"1999年大阪発、沖縄で磨いた店が虎ノ門フードホールに東京初進出。看板はROO'S SPECIAL BURGER。","price":"-","tags":["バーガー","新店"],"id":70,"genreGroup":"カフェ・スイーツ","tabelog_url":"https://tabelog.com/tokyo/A1308/A130802/13315520/","tabelog_score":3.38,"gmap_url":"https://www.google.com/maps/search/?api=1&query=Captain+Kangaroo+アルセアタワー+虎ノ門","private_room":"なし（フードコート形式のマルシェ内）","quiet_business":"フードホール形態のためカジュアル、会食向きではない","price_actual":"SPARKY BURGER ¥1,780、ランチセット¥450"},{"name":"とんかつ いわい","area":"浜松町","walk":35,"genre":"とんかつ","desc":"「日本一」と評される食べログ百名店。厚切りロースかつは柔らかく脂が甘い。まずは何もつけずに食べるのがおすすめ。","price":"-","tags":["とんかつ","百名店"],"id":71,"genreGroup":"とんかつ","tabelog_url":"https://tabelog.com/tokyo/A1314/A131401/13170377/","tabelog_score":3.75,"tabelog_reviews":2072,"gmap_url":"https://www.google.com/maps/search/?api=1&query=とんかつ+いわい+東京都港区浜松町","private_room":"不明","quiet_business":"大門駅3分、行列必至の人気店。ランチ向きのカジュアル日常使い","price_actual":"情報なし（ロースかつ定食中心、とんかつ百名店継続選出）"},{"name":"鮨「龍次郎」","area":"外苑前","walk":20,"genre":"寿司","desc":"おまかせ¥32,000〜。5万円超えも珍しくない高級鮨の中で3万円台のこの完成度は貴重。ミシュラン1つ星を4年連続獲得、Tabelog Award 2026 Silver受賞。","price":"¥32,000〜","tags":["寿司","ミシュラン","高級"],"id":72,"genreGroup":"寿司","tabelog_url":"https://tabelog.com/tokyo/A1306/A130603/13240787/","tabelog_score":4.3,"gmap_url":"https://www.google.com/maps/search/?api=1&query=鮨+龍次郎+東京都港区南青山","private_room":"なし（カウンター10〜11席のみ）","quiet_business":"ミシュラン一つ星、予約困難な人気店。カウンターのみで少人数の会食向き","price_actual":"夜¥30,000〜39,999（おまかせのみ）"}]</script>
+<script>
+(function () {
+  "use strict";
+
+  const RESTAURANTS = JSON.parse(document.getElementById('restaurant-data').textContent);
+
+  const GENRE_COLORS = {
+    "寿司": "#60a5fa", "焼肉・焼鳥": "#f87171", "とんかつ": "#fbbf24",
+    "ラーメン・麺": "#facc15", "中華": "#fb7185", "フレンチ・洋食": "#c084fc",
+    "アジア各国": "#4ade80", "海鮮": "#38bdf8", "定食・和食": "#a3e635",
+    "居酒屋・バー": "#fb923c", "カフェ・スイーツ": "#f0abfc", "その他": "#94a3b8"
+  };
+
+  function walkBucket(walk) {
+    if (walk <= 5) return 0;
+    if (walk <= 10) return 1;
+    if (walk <= 20) return 2;
+    return 3;
+  }
+  const WALK_LABELS = ["徒歩0-5分", "徒歩6-10分", "徒歩11-20分", "徒歩21分以上"];
+  const WALK_CLASS = ["walk-b0", "walk-b1", "walk-b2", "walk-b3"];
+
+  const state = { genres: new Set(), walks: new Set(), query: "" };
+
+  const genreCounts = {};
+  RESTAURANTS.forEach(r => { genreCounts[r.genreGroup] = (genreCounts[r.genreGroup] || 0) + 1; });
+  const genreGroups = Object.keys(genreCounts).sort((a, b) => genreCounts[b] - genreCounts[a]);
+
+  // ---- DOM builders (no innerHTML with dynamic content; safe DOM APIs only) ----
+
+  function el(tag, opts) {
+    const node = document.createElement(tag);
+    opts = opts || {};
+    if (opts.className) node.className = opts.className;
+    if (opts.text != null) node.textContent = opts.text;
+    if (opts.attrs) for (const k in opts.attrs) node.setAttribute(k, opts.attrs[k]);
+    if (opts.style) Object.assign(node.style, opts.style);
+    return node;
+  }
+
+  function renderFilters() {
+    const genreEl = document.getElementById('genre-filters');
+    genreGroups.forEach(g => {
+      const chip = el('button', { className: 'chip', text: `${g} (${genreCounts[g]})` });
+      chip.addEventListener('click', () => {
+        if (state.genres.has(g)) state.genres.delete(g); else state.genres.add(g);
+        render();
+      });
+      chip.dataset.genre = g;
+      genreEl.appendChild(chip);
+    });
+    document.getElementById('genre-clear').addEventListener('click', () => {
+      state.genres.clear();
+      render();
+    });
+
+    const walkEl = document.getElementById('walk-filters');
+    WALK_LABELS.forEach((label, i) => {
+      const count = RESTAURANTS.filter(r => walkBucket(r.walk) === i).length;
+      const shortLabel = label.replace('徒歩', '');
+      const chip = el('button', { className: 'chip', text: `${shortLabel} (${count})` });
+      chip.addEventListener('click', () => {
+        if (state.walks.has(i)) state.walks.delete(i); else state.walks.add(i);
+        render();
+      });
+      chip.dataset.walk = String(i);
+      walkEl.appendChild(chip);
+    });
+    document.getElementById('walk-clear').addEventListener('click', () => {
+      state.walks.clear();
+      render();
+    });
+  }
+
+  function matchesFilters(r) {
+    if (state.genres.size && !state.genres.has(r.genreGroup)) return false;
+    if (state.walks.size && !state.walks.has(walkBucket(r.walk))) return false;
+    const q = state.query.trim().toLowerCase();
+    if (q) {
+      const hay = (r.name + ' ' + r.area + ' ' + (r.addr || '') + ' ' + (r.tags || []).join(' ') + ' ' + r.desc).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function buildCard(r) {
+    const wb = walkBucket(r.walk);
+    const walkText = r.walkNote ? `${r.walk}分（${r.walkNote}）` : `徒歩${r.walk}分`;
+
+    const card = el('div', { className: 'card' });
+    card.dataset.genre = r.genreGroup;
+    card.dataset.walk = String(wb);
+    card.dataset.search = (r.name + ' ' + r.area + ' ' + (r.addr || '') + ' ' + (r.tags || []).join(' ')).toLowerCase();
+
+    const top = el('div', { className: 'card-top' });
+    const nameWrap = el('div', { className: 'card-name' });
+    if (r.link) {
+      const a = el('a', { text: r.name });
+      a.href = r.link;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      nameWrap.appendChild(a);
+    } else {
+      nameWrap.textContent = r.name;
+    }
+    const badge = el('div', { className: `walk-badge ${WALK_CLASS[wb]}`, text: walkText });
+    top.appendChild(nameWrap);
+    top.appendChild(badge);
+    card.appendChild(top);
+
+    const meta = el('div', { className: 'card-meta' });
+    const genreTag = el('span', { className: 'meta-tag genre' });
+    const genreDot = el('span', { className: 'dot-sm' });
+    genreDot.style.background = GENRE_COLORS[r.genreGroup] || '#94a3b8';
+    genreTag.appendChild(genreDot);
+    genreTag.appendChild(document.createTextNode(r.genre));
+    const areaTag = el('span', { className: 'meta-tag' });
+    areaTag.appendChild(el('span', { className: 'pin', text: '📍' }));
+    areaTag.appendChild(document.createTextNode(r.area));
+    meta.appendChild(genreTag);
+    meta.appendChild(areaTag);
+    card.appendChild(meta);
+
+    const desc = el('div', {
+      className: r.desc ? 'card-desc' : 'card-desc empty',
+      text: r.desc || '詳細メモなし'
+    });
+    card.appendChild(desc);
+
+    if (r.tags && r.tags.length) {
+      const tagsRow = el('div', { className: 'card-tags' });
+      r.tags.slice(0, 4).forEach(t => tagsRow.appendChild(el('span', { className: 'pill-tag', text: t })));
+      if (r.private_room && /個室あり|あり/.test(r.private_room) && !/なし/.test(r.private_room)) {
+        tagsRow.appendChild(el('span', { className: 'pill-tag pill-tag-room', text: '🚪 個室あり' }));
+      }
+      card.appendChild(tagsRow);
+    }
+
+    const footer = el('div', { className: 'card-footer' });
+    footer.appendChild(el('span', { className: 'price', text: r.price_actual || r.price || '-' }));
+    if (r.addr) footer.appendChild(el('span', { className: 'addr', text: r.addr }));
+    card.appendChild(footer);
+
+    if (r.tabelog_url || r.link || r.gmap_url) {
+      const linkRow = el('div', { className: 'card-links' });
+      const tabelogUrl = r.tabelog_url || r.link;
+      if (tabelogUrl) {
+        const a = el('a', { className: 'card-link', text: '食べログ' + (r.tabelog_score ? ` ${r.tabelog_score}` : '') });
+        a.href = tabelogUrl; a.target = '_blank'; a.rel = 'noopener';
+        linkRow.appendChild(a);
+      }
+      const gmapUrl = r.gmap_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.name + ' 東京都港区 ' + (r.addr || r.area))}`;
+      const g = el('a', { className: 'card-link', text: 'Map' + (r.gmap_score ? ` ${r.gmap_score}` : '') });
+      g.href = gmapUrl; g.target = '_blank'; g.rel = 'noopener';
+      linkRow.appendChild(g);
+      card.appendChild(linkRow);
+    }
+
+    return card;
+  }
+
+  function render() {
+    document.querySelectorAll('#genre-filters .chip').forEach(c => {
+      c.classList.toggle('active', state.genres.has(c.dataset.genre));
+    });
+    document.querySelectorAll('#walk-filters .chip').forEach(c => {
+      c.classList.toggle('active', state.walks.has(Number(c.dataset.walk)));
+    });
+    document.getElementById('genre-clear').style.display = state.genres.size ? 'inline-flex' : 'none';
+    document.getElementById('walk-clear').style.display = state.walks.size ? 'inline-flex' : 'none';
+
+    const filtered = RESTAURANTS.filter(matchesFilters);
+
+    const grid = document.getElementById('grid');
+    grid.replaceChildren(...filtered.map(buildCard));
+    document.getElementById('no-results').style.display = filtered.length ? 'none' : 'block';
+    document.getElementById('count-num').textContent = String(filtered.length);
+    document.getElementById('stat-shown').textContent = String(filtered.length);
+
+    const parts = [];
+    if (state.genres.size) parts.push([...state.genres].join('+'));
+    if (state.walks.size) parts.push([...state.walks].sort().map(i => WALK_LABELS[i]).join('+'));
+    const q = state.query.trim();
+    if (q) parts.push(`"${q}"`);
+    document.getElementById('active-filter-summary').textContent = parts.length ? parts.join(' × ') : '全件表示';
+
+    updateRouletteButtonState(filtered.length);
+  }
+
+  function updateRouletteButtonState(count) {
+    const btn = document.getElementById('roulette-btn');
+    btn.disabled = count === 0;
+    btn.style.opacity = count === 0 ? '0.4' : '1';
+    btn.style.cursor = count === 0 ? 'not-allowed' : 'pointer';
+  }
+
+  // ---------- Roulette ----------
+
+  function el2(tag, opts) { return el(tag, opts); }
+
+  function buildResultView(r) {
+    const wrap = el2('div', {});
+    wrap.appendChild(el2('div', { className: 'roulette-eyebrow', text: '本日の一軒はこちら' }));
+    wrap.appendChild(el2('div', { className: 'roulette-result-name', text: r.name }));
+
+    const badges = el2('div', { className: 'roulette-result-badges' });
+    const wb = walkBucket(r.walk);
+    badges.appendChild(el2('span', { className: `walk-badge ${WALK_CLASS[wb]}`, text: r.walkNote ? `${r.walk}分（${r.walkNote}）` : `徒歩${r.walk}分` }));
+    const genreTag = el2('span', { className: 'meta-tag genre' });
+    const dot = el2('span', { className: 'dot-sm' });
+    dot.style.background = GENRE_COLORS[r.genreGroup] || '#94a3b8';
+    genreTag.appendChild(dot);
+    genreTag.appendChild(document.createTextNode(r.genre));
+    badges.appendChild(genreTag);
+    const areaTag = el2('span', { className: 'meta-tag' });
+    areaTag.appendChild(el2('span', { className: 'pin', text: '📍' }));
+    areaTag.appendChild(document.createTextNode(r.area));
+    badges.appendChild(areaTag);
+    wrap.appendChild(badges);
+
+    wrap.appendChild(el2('div', { className: 'roulette-result-desc', text: r.desc || '詳細メモなし' }));
+
+    const factGrid = el2('div', { className: 'roulette-fact-grid' });
+    const facts = [
+      ['価格帯', r.price_actual || r.price || '-'],
+      ['個室', r.private_room || '不明'],
+      ['会食向き', r.quiet_business || '不明'],
+      ['住所', r.addr || r.area],
+    ];
+    facts.forEach(([k, v]) => {
+      const f = el2('div', { className: 'roulette-fact' });
+      f.appendChild(el2('div', { className: 'k', text: k }));
+      f.appendChild(el2('div', { className: 'v', text: v }));
+      factGrid.appendChild(f);
+    });
+    wrap.appendChild(factGrid);
+
+    const links = el2('div', { className: 'roulette-links' });
+    if (r.link || r.tabelog_url) {
+      const a = el2('a', { className: 'roulette-link-btn', text: '食べログ' });
+      a.href = r.tabelog_url || r.link;
+      a.target = '_blank'; a.rel = 'noopener';
+      links.appendChild(a);
+    }
+    const gmapUrl = r.gmap_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.name + ' 東京都港区 ' + (r.addr || r.area))}`;
+    const gmapA = el2('a', { className: 'roulette-link-btn', text: 'Google Map' });
+    gmapA.href = gmapUrl;
+    gmapA.target = '_blank'; gmapA.rel = 'noopener';
+    links.appendChild(gmapA);
+    wrap.appendChild(links);
+
+    const reroll = el2('button', { className: 'roulette-reroll', text: 'もう一軒引く' });
+    reroll.addEventListener('click', runRoulette);
+    wrap.appendChild(reroll);
+
+    return wrap;
+  }
+
+  function runRoulette() {
+    const pool = RESTAURANTS.filter(matchesFilters);
+    const inner = document.getElementById('roulette-modal-inner');
+
+    if (!pool.length) {
+      inner.replaceChildren(el2('div', { className: 'roulette-empty', text: '条件に合うお店がありません。フィルタを変えてお試しください。' }));
+      return;
+    }
+
+    const spinWrap = el2('div', { className: 'roulette-spinning' });
+    spinWrap.appendChild(document.createTextNode('抽選中…'));
+    const nameEl = el2('div', { className: 'spin-name', text: '' });
+    spinWrap.appendChild(nameEl);
+    inner.replaceChildren(spinWrap);
+
+    let ticks = 0;
+    const maxTicks = 14;
+    const timer = setInterval(() => {
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      nameEl.textContent = pick.name;
+      ticks++;
+      if (ticks >= maxTicks) {
+        clearInterval(timer);
+        const finalPick = pool[Math.floor(Math.random() * pool.length)];
+        inner.replaceChildren(buildResultView(finalPick));
+      }
+    }, 80);
+  }
+
+  function openRoulette() {
+    document.getElementById('roulette-overlay').classList.add('open');
+    runRoulette();
+  }
+  function closeRoulette() {
+    document.getElementById('roulette-overlay').classList.remove('open');
+  }
+
+  document.getElementById('roulette-btn').addEventListener('click', openRoulette);
+  document.getElementById('roulette-close').addEventListener('click', closeRoulette);
+  document.getElementById('roulette-overlay').addEventListener('click', (e) => {
+    if (e.target.id === 'roulette-overlay') closeRoulette();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeRoulette();
+  });
+
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    state.query = e.target.value;
+    render();
+  });
+
+  document.getElementById('stat-total').textContent = String(RESTAURANTS.length);
+  document.getElementById('stat-genres').textContent = String(genreGroups.length);
+
+  renderFilters();
+  render();
+})();
+</script>
+
+</body>
+</html>
